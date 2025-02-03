@@ -4,6 +4,14 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
-
+    <style name="CustomToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="Theme.OffTheBeatenPath" parent="Base.Theme.OffTheBeatenPath" />
+    <style name="banner">
+    </style>
+    <style name="button">
+    </style>
+    <style name="mapButton">
+    </style>
 </resources>

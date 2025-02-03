@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Off the Beaten Path</string>
+    <string name="home">Kezdőlap</string>
+    <string name="map">Térkép</string>
+    <string name="profile">Fiók</string>
+    <string name="settings">beállítások</string>
 </resources>

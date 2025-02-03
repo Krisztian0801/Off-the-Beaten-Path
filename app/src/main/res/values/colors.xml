@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_brown">#ECDED1</color>
+    <color name="darker_brown">#CDBBAF</color>
+    <color name="orange">#E0964F</color>
+    <color name="greenier">#668E6C</color>
+    <color name="green">#30794B</color>
+    <color name="dark_green">#194532</color>
+    <color name="greenis_blue">#116B76</color>
+    <color name="greenis">#358D74</color>
+    <color name="dark_blue">#20272F</color>
+    <color name="dark_thame">#1B2128</color>
+
 </resources>

@@ -3,5 +3,18 @@
     <style name="Base.Theme.OffTheBeatenPath" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:background">@color/dark_thame</item>
+    </style>
+    <style name="CustomToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="banner">
+        <item name="android:background">@color/dark_blue</item>
+    </style>
+    <style name="button">
+        <item name="backgroundTint">@color/dark_thame</item>
+    </style>
+    <style name="mapButton">
+        <item name="backgroundTint">@color/dark_thame</item>
     </style>
 </resources>
