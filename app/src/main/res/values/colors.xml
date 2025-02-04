@@ -12,5 +12,7 @@
     <color name="greenis">#358D74</color>
     <color name="dark_blue">#20272F</color>
     <color name="dark_thame">#1B2128</color>
+    <color name="icon_tint">#000000</color>
+    <color name="icon_tint_selected">#30794B</color>
 
 </resources>

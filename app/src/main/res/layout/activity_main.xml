@@ -23,9 +23,11 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:title="@string/home"
+            app:itemIconTint="@color/bottom_nav_item_selector"
+            app:itemTextColor="@color/bottom_nav_item_selector"
             app:menu="@menu/top_bar"
             style="@style/CustomToolbarStyle"
-        />
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -45,10 +47,11 @@
         style="@style/banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemIconTint="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:itemIconTint="@color/bottom_nav_item_selector"
+        app:itemTextColor="@color/bottom_nav_item_selector"
         app:menu="@menu/bottom_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

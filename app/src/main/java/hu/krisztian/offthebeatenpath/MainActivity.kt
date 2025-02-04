@@ -1,13 +1,10 @@
 package hu.krisztian.offthebeatenpath
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.ActionMode
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.MaterialToolbar
 import hu.krisztian.offthebeatenpath.databinding.ActivityMainBinding
@@ -17,70 +14,101 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var materialToolbar: MaterialToolbar
 
-
-    private var settingsString = ""
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var homeString = resources.getString(R.string.home)
-        var mapString = resources.getString(R.string.map)
-        var profileString = resources.getString(R.string.profile)
+        val homeString = resources.getString(R.string.home)
+        val mapString = resources.getString(R.string.map)
+        val profileString = resources.getString(R.string.profile)
+        val settingsString = resources.getString(R.string.settings)
+        materialToolbar = findViewById(R.id.topAppBar)
         replaceFragment(HomeFragment(), homeString)
-        binding.footer.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.home -> replaceFragment(HomeFragment(), homeString)
-                R.id.map -> replaceFragment(MapFragment(), mapString)
-
-                R.id.profile -> replaceFragment(ProfileFragment(), profileString)
-
-                else -> {
-
-                }
-            }
-            true
+        if (isDarkMode()) {
+            materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_white)
+        } else {
+            materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_black)
         }
-        val callback = object : ActionMode.Callback {
-
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menuInflater.inflate(R.menu.top_bar, menu)
-                return true
+        materialToolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.settings -> {
+                    replaceFragment(SettingsFragment(), settingsString)
+                    menuItem.setIcon(R.drawable.setting_filled)
+                    resetBottomNavigationViewIcons()
+                    true
+                }
+                else -> false
             }
+        }
 
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                return false
-            }
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-                settingsString = resources.getString(R.string.settings)
-                return when (item?.itemId) {
-                    R.id.settings -> {
-                        replaceFragment(SettingsFragment(), settingsString)
-                        true
+        binding.footer.setOnItemSelectedListener { menuItem ->
+            resetBottomNavigationViewIcons() // Reset icons before handling any new selection
+            when (menuItem.itemId) {
+                R.id.home -> {
+                    replaceFragment(HomeFragment(), homeString)
+                    menuItem.setIcon(R.drawable.home_filled)
+                    setBottomNavigationViewIconColor(menuItem.itemId, R.color.icon_tint_selected)
+                    if (isDarkMode()) {
+                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_white)
+                    } else {
+                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_black)
+                    }
+                    true
+                }
+                R.id.map -> {
+                    replaceFragment(MapFragment(), mapString)
+                    menuItem.setIcon(R.drawable.map_filled)
+                    setBottomNavigationViewIconColor(menuItem.itemId, R.color.icon_tint_selected)
+                    if (isDarkMode()) {
+                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_white)
+                    } else {
+                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_black)
                     }
 
-                    else -> false
+                    true
                 }
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
+                R.id.profile -> {
+                    replaceFragment(ProfileFragment(), profileString)
+                    menuItem.setIcon(R.drawable.profile_filled)
+                    setBottomNavigationViewIconColor(menuItem.itemId, R.color.icon_tint_selected)
+                    if (isDarkMode()) {
+                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_white)
+                    } else {
+                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_black)
+                    }
+                    true
+                }
+                else -> false
             }
         }
-        val actionMode = startSupportActionMode(callback)
     }
 
+    private fun resetBottomNavigationViewIcons() {
+        val defaultColor = ContextCompat.getColorStateList(this, R.color.icon_tint)
+        binding.footer.menu.findItem(R.id.home).setIcon(R.drawable.home_black)
+        binding.footer.menu.findItem(R.id.map).setIcon(R.drawable.map_black)
+        binding.footer.menu.findItem(R.id.profile).setIcon(R.drawable.profile_black)
+
+        binding.footer.menu.findItem(R.id.home).iconTintList = defaultColor
+        binding.footer.menu.findItem(R.id.map).iconTintList = defaultColor
+        binding.footer.menu.findItem(R.id.profile).iconTintList = defaultColor
+    }
+
+    private fun setBottomNavigationViewIconColor(itemId: Int, color: Int) {
+        val selectedColor = ContextCompat.getColorStateList(this, color)
+        binding.footer.menu.findItem(itemId).iconTintList = selectedColor
+    }
+    private fun isDarkMode(): Boolean {
+        return (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+    }
 
     private fun replaceFragment(fragment: Fragment, screen: String) {
         materialToolbar = findViewById(R.id.topAppBar)
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
-        materialToolbar.setTitle(screen)
+        materialToolbar.title = screen
         fragmentTransaction.commit()
-
     }
 }
