@@ -5,4 +5,8 @@
     <string name="map">Térkép</string>
     <string name="profile">Fiók</string>
     <string name="settings">Beállítások</string>
+    <string name="email">Email</string>
+    <string name="password">Jelszó</string>
+    <string name="login">Bejelentkezés</string>
+    <string name="registration">Regisztráció</string>
 </resources>

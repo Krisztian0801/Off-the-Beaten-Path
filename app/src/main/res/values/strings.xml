@@ -4,4 +4,11 @@
     <string name="map">Map</string>
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
+    <string name="placeholder" translatable="false">PLACEHOLDER</string>
+    <string name="placeImage" translatable="false">PlaceImage</string>
+    <string name="userImage" translatable="false">user image</string>
 </resources>
