@@ -9,4 +9,6 @@
     <string name="password">Jelszó</string>
     <string name="login">Bejelentkezés</string>
     <string name="registration">Regisztráció</string>
+    <string name="toastLocation">Hely nem elérhető</string>
+    <string name="location_permission_denied">Helyhozzáférés megtagadva</string>
 </resources>

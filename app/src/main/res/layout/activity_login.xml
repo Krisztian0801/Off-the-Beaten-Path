@@ -28,60 +28,80 @@
         android:id="@+id/loginTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/logoImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:background="@color/darker_brown"
+        android:paddingBottom="16dp"
+        android:text="@string/login"
         android:textColor="@color/black"
         android:textSize="25sp"
-        android:text="@string/login"
-        android:paddingBottom="16dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailEditText"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@android:drawable/edit_text"
         android:hint="@string/email"
-        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/greenis"
+        app:hintTextColor="@color/greenis"
+        app:cursorColor="@color/greenis"
         app:layout_constraintEnd_toEndOf="@id/logoImageView"
         app:layout_constraintStart_toStartOf="@id/logoImageView"
-        app:layout_constraintTop_toBottomOf="@id/loginTextView" />
+        app:layout_constraintTop_toBottomOf="@id/loginTextView">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordEditText"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@android:drawable/edit_text"
         android:hint="@string/password"
-        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/greenis"
+        app:hintTextColor="@color/greenis"
+        app:cursorColor="@color/greenis"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="@id/logoImageView"
         app:layout_constraintStart_toStartOf="@id/logoImageView"
-        app:layout_constraintTop_toBottomOf="@id/emailEditText" />
+        app:layout_constraintTop_toBottomOf="@id/emailEditText">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/login"
         android:layout_marginStart="32dp"
-        app:layout_constraintStart_toStartOf="@id/passwordEditText"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/green"
+        android:text="@string/login"
         android:textColor="@color/black"
-        android:backgroundTint="@color/green"/>
+        app:layout_constraintStart_toStartOf="@id/passwordEditText"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
+
     <Button
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/orange"
         android:text="@string/registration"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/passwordEditText"
         app:layout_constraintStart_toEndOf="@id/loginButton"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/orange"/>
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

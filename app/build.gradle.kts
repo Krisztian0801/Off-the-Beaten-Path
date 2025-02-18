@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "hu.krisztian.offthebeatenpath"
-        minSdk = 27
+        minSdk = 28
         targetSdk = 35
         versionCode = 1
         versionName = "1.1.1"
@@ -52,9 +52,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.google.maps)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.compose.material3)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)

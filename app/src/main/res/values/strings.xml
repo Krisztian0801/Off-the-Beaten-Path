@@ -11,4 +11,6 @@
     <string name="placeholder" translatable="false">PLACEHOLDER</string>
     <string name="placeImage" translatable="false">PlaceImage</string>
     <string name="userImage" translatable="false">user image</string>
+    <string name="toastLocation">Unavailable Location</string>
+    <string name="location_permission_denied">Location permission denied</string>
 </resources>
