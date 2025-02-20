@@ -29,4 +29,9 @@
     <string name="language">Language</string>
     <string name="english_uk">English (UK)</string>
     <string name="hungarian">Hungarian</string>
+    <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="app_version_format">Version: %1$s</string>
+    <string name="version">Version</string>
+    <string name="developer">Developer</string>
 </resources>

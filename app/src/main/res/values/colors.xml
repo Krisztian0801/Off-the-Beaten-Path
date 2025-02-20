@@ -14,5 +14,5 @@
     <color name="dark_thame">#1B2128</color>
     <color name="icon_tint">#000000</color>
     <color name="icon_tint_selected">#30794B</color>
-
+    <color name="tomato">#FF6347</color>
 </resources>

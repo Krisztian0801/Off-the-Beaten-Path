@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
-    android:background="@color/green"
     tools:context=".AccountFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,85 +20,133 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_information"
-                android:textSize="20sp"
                 android:paddingBottom="8dp"
-                android:textColor="@android:color/black"/>
+                android:text="@string/profile_information"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/greenis"
+                app:hintTextColor="@color/greenis"
+                app:cursorColor="@color/greenis"
                 android:hint="@string/name">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/greenis"
+                app:hintTextColor="@color/greenis"
+                app:cursorColor="@color/greenis"
                 android:hint="@string/email">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"/>
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonChangeProfilePicture"
-                android:layout_width="match_parent"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:text="@string/change_profile_pic"
-                style="@style/Widget.Material3.Button.TextButton"/>
+                android:textColor="@color/greenis"
+                app:strokeColor="@color/greenis"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_marginVertical="16dp"/>
+                android:layout_marginVertical="16dp"
+                android:background="@android:color/darker_gray" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/security"
-                android:textSize="20sp"
                 android:paddingBottom="8dp"
-                android:textColor="@android:color/black"/>
+                android:text="@string/security"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/greenis"
+                app:hintTextColor="@color/greenis"
+                app:cursorColor="@color/greenis"
+                android:layout_marginTop="16dp"
+                android:hint="@string/old_password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editOldPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/greenis"
+                app:hintTextColor="@color/greenis"
+                app:cursorColor="@color/greenis"
+                android:hint="@string/new_password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editNewPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonChangePassword"
-                android:layout_width="match_parent"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:text="@string/change_password"
-                style="@style/Widget.Material3.Button.TextButton"/>
-
+                android:textColor="@color/greenis"
+                app:strokeColor="@color/greenis"
+                />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_marginVertical="16dp"/>
-
-
-
+                android:layout_marginVertical="16dp"
+                android:background="@android:color/darker_gray" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/account_management"
-                android:textSize="20sp"
                 android:paddingBottom="8dp"
-                android:textColor="@android:color/black"/>
+                android:text="@string/account_management"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonDeleteAccount"
-                android:layout_width="match_parent"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:text="@string/delete_account"
-                style="@style/Widget.Material3.Button.TextButton"/>
+                android:textColor="@color/tomato"
+                app:strokeColor="@color/tomato"
+                />
 
         </LinearLayout>
     </ScrollView>
