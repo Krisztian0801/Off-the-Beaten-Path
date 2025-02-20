@@ -13,4 +13,20 @@
     <string name="userImage" translatable="false">user image</string>
     <string name="toastLocation">Unavailable Location</string>
     <string name="location_permission_denied">Location permission denied</string>
+    <string name="name">Name</string>
+    <string name="language_settings">Language Settings</string>
+    <string name="profile_information">Profile Information</string>
+    <string name="change_profile_pic">Change Profile Picture</string>
+    <string name="security">Security</string>
+    <string name="change_password">Change Password</string>
+    <string name="account_management">Account Management</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="about">About</string>
+    <string name="legal">Legal</string>
+    <string name="legal_information">Leagal Information</string>
+    <string name="log_out">Log Out</string>
+    <string name="account">Account</string>
+    <string name="language">Language</string>
+    <string name="english_uk">English (UK)</string>
+    <string name="hungarian">Hungarian</string>
 </resources>

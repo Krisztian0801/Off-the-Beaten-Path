@@ -11,4 +11,20 @@
     <string name="registration">Regisztráció</string>
     <string name="toastLocation">Hely nem elérhető</string>
     <string name="location_permission_denied">Helyhozzáférés megtagadva</string>
+    <string name="name">Név</string>
+    <string name="language_settings">Nyelv Beállítások</string>
+    <string name="profile_information">Fiók Információk</string>
+    <string name="change_profile_pic">Profilkép megváltoztatása</string>
+    <string name="security">Biztonság</string>
+    <string name="change_password">Jelszó megváltoztatása</string>
+    <string name="account_management">Fiók Kezelés</string>
+    <string name="delete_account">Fiók Törlése</string>
+    <string name="about">Rólunk</string>
+    <string name="legal">Hivatalos</string>
+    <string name="legal_information">Hivatalos Információk</string>
+    <string name="log_out">Kijelentkezés</string>
+    <string name="account">Fiók</string>
+    <string name="language">Nyelv</string>
+    <string name="english_uk">Angol (Egyesült Királyság)</string>
+    <string name="hungarian">Magyar</string>
 </resources>

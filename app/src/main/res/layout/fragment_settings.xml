@@ -1,11 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".SettingsFragment">
 
+    <TextView
+        android:id="@+id/textViewAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/account"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onAccountClick"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textViewLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/language_settings"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onLanguageClick"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/textViewAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/about"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onAboutClick"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/textViewLegal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/legal"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:background="?android:attr/selectableItemBackground"
+
+        android:drawablePadding="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onLegalClick"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/textViewLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/log_out"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onLogoutClick"/>
+
+</LinearLayout>

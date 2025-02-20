@@ -2,6 +2,7 @@ package hu.krisztian.offthebeatenpath
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -21,21 +22,20 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val homeString = resources.getString(R.string.home)
-        val mapString = resources.getString(R.string.map)
-        val profileString = resources.getString(R.string.profile)
-        val settingsString = resources.getString(R.string.settings)
+
+        setupToolbar()
+        setupBottomNavigation()
+    }
+
+    private fun setupToolbar() {
         materialToolbar = findViewById(R.id.topAppBar)
-        replaceFragment(HomeFragment(), homeString)
-        if (isDarkMode()) {
-            materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_white)
-        } else {
-            materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_black)
-        }
+        replaceFragment(HomeFragment(), getString(R.string.home))
+        setToolbarSettingsIcon()
+
         materialToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.settings -> {
-                    replaceFragment(SettingsFragment(), settingsString)
+                    replaceFragment(SettingsFragment(), getString(R.string.settings))
                     menuItem.setIcon(R.drawable.setting_filled)
                     resetBottomNavigationViewIcons()
                     true
@@ -43,47 +43,28 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
 
+    private fun setupBottomNavigation() {
         binding.footer.setOnItemSelectedListener { menuItem ->
-            resetBottomNavigationViewIcons() // Reset icons before handling any new selection
-            when (menuItem.itemId) {
-                R.id.home -> {
-                    replaceFragment(HomeFragment(), homeString)
-                    menuItem.setIcon(R.drawable.home_filled)
-                    setBottomNavigationViewIconColor(menuItem.itemId, R.color.icon_tint_selected)
-                    if (isDarkMode()) {
-                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_white)
-                    } else {
-                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_black)
-                    }
-                    true
-                }
-                R.id.map -> {
-                    replaceFragment(MapFragment(), mapString)
-                    menuItem.setIcon(R.drawable.map_filled)
-                    setBottomNavigationViewIconColor(menuItem.itemId, R.color.icon_tint_selected)
-                    if (isDarkMode()) {
-                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_white)
-                    } else {
-                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_black)
-                    }
-
-                    true
-                }
-                R.id.profile -> {
-                    replaceFragment(ProfileFragment(), profileString)
-                    menuItem.setIcon(R.drawable.profile_filled)
-                    setBottomNavigationViewIconColor(menuItem.itemId, R.color.icon_tint_selected)
-                    if (isDarkMode()) {
-                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_white)
-                    } else {
-                        materialToolbar.menu.findItem(R.id.settings).setIcon(R.drawable.settings_black)
-                    }
-                    true
-                }
-                else -> false
+            resetBottomNavigationViewIcons()
+            val fragment = when (menuItem.itemId) {
+                R.id.home -> HomeFragment().also { setBottomNavigationViewIcon(menuItem, R.drawable.home_filled) }
+                R.id.map -> MapFragment().also { setBottomNavigationViewIcon(menuItem, R.drawable.map_filled) }
+                R.id.profile -> ProfileFragment().also { setBottomNavigationViewIcon(menuItem, R.drawable.profile_filled) }
+                else -> null
             }
+            fragment?.let {
+                replaceFragment(it, menuItem.title.toString())
+            }
+            setToolbarSettingsIcon()
+            fragment != null
         }
+    }
+
+    private fun setToolbarSettingsIcon() {
+        val settingsIcon = if (isDarkMode()) R.drawable.settings_white else R.drawable.settings_black
+        materialToolbar.menu.findItem(R.id.settings).setIcon(settingsIcon)
     }
 
     private fun resetBottomNavigationViewIcons() {
@@ -91,26 +72,23 @@ class MainActivity : AppCompatActivity() {
         binding.footer.menu.findItem(R.id.home).setIcon(R.drawable.home_black)
         binding.footer.menu.findItem(R.id.map).setIcon(R.drawable.map_black)
         binding.footer.menu.findItem(R.id.profile).setIcon(R.drawable.profile_black)
-
         binding.footer.menu.findItem(R.id.home).iconTintList = defaultColor
         binding.footer.menu.findItem(R.id.map).iconTintList = defaultColor
         binding.footer.menu.findItem(R.id.profile).iconTintList = defaultColor
     }
 
-    private fun setBottomNavigationViewIconColor(itemId: Int, color: Int) {
-        val selectedColor = ContextCompat.getColorStateList(this, color)
-        binding.footer.menu.findItem(itemId).iconTintList = selectedColor
+    private fun setBottomNavigationViewIcon(menuItem: MenuItem, iconResId: Int) {
+        menuItem.setIcon(iconResId)
+        menuItem.iconTintList = ContextCompat.getColorStateList(this, R.color.icon_tint_selected)
     }
+
     private fun isDarkMode(): Boolean {
         return (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun replaceFragment(fragment: Fragment, screen: String) {
         materialToolbar = findViewById(R.id.topAppBar)
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit()
         materialToolbar.title = screen
-        fragmentTransaction.commit()
     }
 }

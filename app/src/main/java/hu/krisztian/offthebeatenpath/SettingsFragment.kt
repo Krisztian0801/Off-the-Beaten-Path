@@ -1,59 +1,107 @@
 package hu.krisztian.offthebeatenpath
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.button.MaterialButton
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var editTextName: TextInputEditText
+    private lateinit var editTextEmail: TextInputEditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+        setupClickListeners(view)
+        loadSettings(view)
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun setupClickListeners(view: View) {
+        view.findViewById<TextView>(R.id.textViewAccount).setOnClickListener {
+            replaceFragment(AccountFragment())
+        }
+        view.findViewById<TextView>(R.id.textViewLanguage).setOnClickListener {
+            replaceFragment(LanguageFragment())
+        }
+        view.findViewById<TextView>(R.id.textViewAbout).setOnClickListener {
+            replaceFragment(AboutFragment())
+        }
+        view.findViewById<TextView>(R.id.textViewLegal).setOnClickListener {
+            replaceFragment(LegalFragment())
+        }
+
+//        view.findViewById<MaterialButton>(R.id.buttonChangeProfilePicture).setOnClickListener {
+//            Log.INFO
+//        }
+//        view.findViewById<MaterialButton>(R.id.buttonChangePassword).setOnClickListener {
+//            Log.INFO
+//        }
+//        view.findViewById<MaterialButton>(R.id.buttonChangeLanguage).setOnClickListener {
+//            Log.INFO
+//        }
+//        view.findViewById<MaterialButton>(R.id.buttonPrivacySettings).setOnClickListener {
+//            Log.INFO
+//        }
+//        view.findViewById<MaterialButton>(R.id.buttonDeleteAccount).setOnClickListener {
+//            Log.INFO
+//        }
+
+//        editTextName = view.findViewById(R.id.editTextName)
+//        editTextEmail = view.findViewById(R.id.editTextEmail)
+//
+//        editTextName.setOnFocusChangeListener { _, hasFocus ->
+//            if (!hasFocus) saveSettings("name", editTextName.text.toString())
+//        }
+//        editTextEmail.setOnFocusChangeListener { _, hasFocus ->
+//            if (!hasFocus) saveSettings("email", editTextEmail.text.toString())
+//        }
     }
+
+    private fun replaceFragment(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun onAccountClick() {
+        replaceFragment(AccountFragment())
+    }
+
+    private fun onLanguageClick() {
+        replaceFragment(LanguageFragment())
+    }
+
+    private fun onAboutClick() {
+        replaceFragment(AboutFragment())
+    }
+
+    private fun onLegalClick() {
+        replaceFragment(LegalFragment())
+    }
+
+
+    private fun saveSettings(key: String, value: String) {
+        val sharedPreferences = requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
+    private fun loadSettings(view: View) {
+        val sharedPreferences = requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+//        view.findViewById<TextInputEditText>(R.id.editTextName).setText(sharedPreferences.getString("name", ""))
+//         view.findViewById<TextInputEditText>(R.id.editTextEmail).setText(sharedPreferences.getString("email", ""))
+    }
+
 }
