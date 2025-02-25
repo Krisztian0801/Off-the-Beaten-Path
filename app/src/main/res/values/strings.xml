@@ -34,4 +34,5 @@
     <string name="app_version_format">Version: %1$s</string>
     <string name="version">Version</string>
     <string name="developer">Developer</string>
+    <string name="legal_document">Legal Document</string>
 </resources>

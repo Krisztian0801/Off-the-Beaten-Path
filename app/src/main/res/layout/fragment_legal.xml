@@ -7,13 +7,10 @@
     android:padding="16dp"
     tools:context=".LegalFragment">
 
-    <com.google.android.material.textview.MaterialTextView
+    <ListView
+        android:id="@+id/legalListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/legal_information"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"/>
-
-    <!-- Add your legal information UI components here -->
-
+        android:layout_height="match_parent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"/>
 </LinearLayout>
