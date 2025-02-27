@@ -13,7 +13,7 @@ android {
         minSdk = 28
         targetSdk = 35
         versionCode = 1
-        versionName = "1.2.2"
+        versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,4 +61,5 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 }

@@ -33,4 +33,6 @@
     <string name="version">Verzió</string>
     <string name="developer">Fejlesztő</string>
     <string name="legal_document">Hivatalos Documentumok</string>
+    <string name="password_again">Jelszó Újra</string>
+    <string name="empty_textfield">Töltse ki a mezőt!</string>
 </resources>
