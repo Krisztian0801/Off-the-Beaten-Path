@@ -37,4 +37,5 @@
     <string name="legal_document">Legal Document</string>
     <string name="password_again">Password Again</string>
     <string name="empty_textfield">Fill in the field!</string>
+    <string name="passwords_do_not_match">The passwords do not match!</string>
 </resources>

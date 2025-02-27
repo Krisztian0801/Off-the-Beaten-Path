@@ -62,8 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 passwordEditText.error = null
             }
 
-            // 📡 Bejelentkezési kérés az API-nak
-            RetrofitClient.instance.login(LoginRequest(email, password))
+            RetrofitClient.loginService.login(LoginRequest(email, password))
                 .enqueue(object : Callback<LoginResponse> {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         if (response.isSuccessful && response.body() != null) {

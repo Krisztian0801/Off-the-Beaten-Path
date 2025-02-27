@@ -10,31 +10,18 @@ class ApiResponseHandler(private val context: Context) {
     fun handleApiResponse(statusCode: Int, response: JSONObject) {
         val duration = Toast.LENGTH_LONG
 
-        when (statusCode) {
-            200, 201 -> {
-                Toast.makeText(context, "Registration Successful!", duration).show()
+        if (statusCode in 400..599) {
+            val errorMessage = when (statusCode) {
+                400 -> "Bad Request: ${getErrorMessage(response)}"
+                401 -> "Unauthorized access."
+                403 -> "Forbidden access."
+                404 -> "Resource not found."
+                409 -> "Conflict: ${getErrorMessage(response)}"
+                500 -> "Internal Server Error."
+                else -> "Unknown error occurred."
             }
-            400 -> {
-                Toast.makeText(context, "Bad Request: ${getErrorMessage(response)}", duration).show()
-            }
-            401 -> {
-                Toast.makeText(context, "Unauthorized access.", duration).show()
-            }
-            403 -> {
-                Toast.makeText(context, "Forbidden access.", duration).show()
-            }
-            404 -> {
-                Toast.makeText(context, "Resource not found.", duration).show()
-            }
-            409 -> {
-                Toast.makeText(context, "Conflict: ${getErrorMessage(response)}", duration).show()
-            }
-            500 -> {
-                Toast.makeText(context, "Internal Server Error.", duration).show()
-            }
-            else -> {
-                Toast.makeText(context, "Unknown error occurred.", duration).show()
-            }
+
+            Toast.makeText(context, errorMessage, duration).show()
         }
     }
 

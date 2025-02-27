@@ -35,4 +35,5 @@
     <string name="legal_document">Hivatalos Documentumok</string>
     <string name="password_again">Jelszó Újra</string>
     <string name="empty_textfield">Töltse ki a mezőt!</string>
+    <string name="passwords_do_not_match">A jelszavak nem egyeznek!</string>
 </resources>
