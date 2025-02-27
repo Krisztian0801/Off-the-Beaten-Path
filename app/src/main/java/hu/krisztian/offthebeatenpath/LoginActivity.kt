@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
                             // 🔑 Token mentése SharedPreferences-be (opcionális)
                             val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
                             with(sharedPreferences.edit()) {
-                                putString("token", loginResponse!!.user_id.toString())
+                                putString("user_id", loginResponse!!.user_id.toString())
                                 apply()
                             }
 

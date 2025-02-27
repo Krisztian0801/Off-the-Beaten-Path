@@ -1,5 +1,7 @@
 package hu.krisztian.offthebeatenpath
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
@@ -15,9 +17,23 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var materialToolbar: MaterialToolbar
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 🔐 Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
+        sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("user_id", null)
+
+        if (token.isNullOrEmpty()) {
+            // Ha nincs token, akkor a bejelentkezési képernyőre irányítunk
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish() // Ne engedjük vissza a MainActivity-be a Back gombbal
+            return
+        }
+
         enableEdgeToEdge()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)

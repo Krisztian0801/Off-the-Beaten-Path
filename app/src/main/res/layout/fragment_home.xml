@@ -12,13 +12,6 @@
         tools:listitem="@layout/place_list_item"
         />
 
-    <Button
-        android:id="@+id/toLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="toLogin"
-        />
-
 
 
 </FrameLayout>

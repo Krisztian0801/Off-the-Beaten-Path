@@ -39,6 +39,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginEmailEditText"
+        android:background="@color/darker_brown"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -64,6 +65,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@color/darker_brown"
         android:hint="@string/password"
         app:boxStrokeColor="@color/greenis"
         app:hintTextColor="@color/greenis"

@@ -21,16 +21,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        setupLoginButton(view)
         return view
-    }
-
-    private fun setupLoginButton(view: View) {
-        toLogin = view.findViewById(R.id.toLogin)
-        toLogin.setOnClickListener {
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     companion object {

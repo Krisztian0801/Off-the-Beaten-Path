@@ -1,12 +1,15 @@
 package hu.krisztian.offthebeatenpath
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class SettingsFragment : Fragment() {
 
@@ -60,6 +63,29 @@ class SettingsFragment : Fragment() {
         replaceFragment(LegalFragment())
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        val logoutTextView: TextView = view.findViewById(R.id.textViewLogout)
+        logoutTextView.setOnClickListener {
+            onLogoutClick()
+        }
+    }
 
+    private fun onLogoutClick() {
+        val sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            remove("user_id") // Token törlése
+            apply()
+        }
+
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
+        startActivity(intent)
+
+        requireActivity().finish() // Bezárjuk az aktuális Activity-t
+    }
 }
+
+
+
+
