@@ -6,14 +6,14 @@
     style="@style/Base.Theme.OffTheBeatenPath"
     tools:context=".ProfileFragment">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp">
-        
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
         <ImageView
             android:id="@+id/userImageView"
             android:layout_width="100dp"
@@ -22,39 +22,38 @@
             android:src="@drawable/user"
             android:layout_marginTop="10dp"
             android:layout_marginStart="30dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:background="#FEF7FF"/>
+            android:layout_marginBottom="10dp" />
+
         <LinearLayout
             android:id="@+id/userDataLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center"
             android:paddingStart="20dp"
             android:paddingEnd="10dp">
+
             <TextView
                 android:id="@+id/userNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder"
                 android:textSize="18sp"/>
+
             <TextView
                 android:id="@+id/userEmailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder"
                 android:textSize="14sp"/>
-            
         </LinearLayout>
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profileRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="160dp"
         tools:listitem="@layout/place_list_item"/>
-
 
 </FrameLayout>
