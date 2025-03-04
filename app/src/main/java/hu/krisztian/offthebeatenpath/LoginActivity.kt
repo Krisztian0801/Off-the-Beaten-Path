@@ -69,14 +69,15 @@ class LoginActivity : AppCompatActivity() {
                             val loginResponse = response.body()
                             Toast.makeText(this@LoginActivity, "Sikeres bejelentkezés!", Toast.LENGTH_SHORT).show()
 
-                            // 🔑 Token mentése SharedPreferences-be (opcionális)
                             val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
                             with(sharedPreferences.edit()) {
                                 putString("user_id", loginResponse!!.user_id.toString())
+                                putString("user_password", loginResponse.user_password)
+                                putString("user_name", loginResponse.user_name)
+                                putBoolean("isAdmin", loginResponse.user_admin)
                                 apply()
                             }
 
-                            // Továbbnavigálás a főoldalra
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                             finish()

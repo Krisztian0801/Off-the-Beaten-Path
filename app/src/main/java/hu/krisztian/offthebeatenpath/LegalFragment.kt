@@ -19,7 +19,7 @@ class LegalFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_legal, container, false)
         val listView: ListView = view.findViewById(R.id.legalListView)
 
-        val items = arrayOf("Terms and Conditions", "Privacy Policy", "Copyright")
+        val items = arrayOf(R.string.terms_and_conditions.toString(), R.string.privacy_policy.toString(), R.string.copyright.toString())
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
         listView.adapter = adapter
 

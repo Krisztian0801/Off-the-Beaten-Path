@@ -36,4 +36,7 @@
     <string name="password_again">Jelszó Újra</string>
     <string name="empty_textfield">Töltse ki a mezőt!</string>
     <string name="passwords_do_not_match">A jelszavak nem egyeznek!</string>
+    <string name="terms_and_conditions">Általános Szerződési Feltételek</string>
+    <string name="privacy_policy">Adatvédelmi Írányelvek</string>
+    <string name="copyright">Szerzői Jog</string>
 </resources>

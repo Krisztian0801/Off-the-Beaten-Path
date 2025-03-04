@@ -13,10 +13,11 @@ android {
         minSdk = 28
         targetSdk = 35
         versionCode = 1
-        versionName = "1.3.0"
+        versionName = "1.3.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildFeatures {
         viewBinding = true
@@ -42,6 +43,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -62,4 +64,14 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+
+    // Unit teszteléshez
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.robolectric)
+
+
+    // Instrumentált teszteléshez (Android tesztek)
+    androidTestImplementation(libs.mockito.android)
 }

@@ -84,30 +84,45 @@ class RegistrationActivity : AppCompatActivity() {
     private fun registerUser(email: String, name: String, password: String) {
         val request = RegistrationRequest(email, name, password)
 
-        RetrofitClient.registrationService.register(request).enqueue(object : Callback<RegistrationResponse> {
-            override fun onResponse(call: Call<RegistrationResponse>, response: Response<RegistrationResponse>) {
-                if (response.isSuccessful) {
+        RetrofitClient.registrationService.register(request)
+            .enqueue(object : Callback<RegistrationResponse> {
+                override fun onResponse(
+                    call: Call<RegistrationResponse>,
+                    response: Response<RegistrationResponse>
+                ) {
+                    if (response.isSuccessful) {
 
-                    Toast.makeText(this@RegistrationActivity, "Registration Successful!", Toast.LENGTH_SHORT).show()
-                    Log.i("Register Success", "Status Code: ${response.code()}")
-                    finish()
-                } else {
+                        Toast.makeText(
+                            this@RegistrationActivity,
+                            "Registration Successful!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.i("Register Success", "Status Code: ${response.code()}")
+                        finish()
+                    } else {
 
-                    val errorJson = try {
-                        JSONObject(response.errorBody()?.string() ?: "{}")
-                    } catch (e: Exception) {
-                        JSONObject()
+                        val errorJson = try {
+                            JSONObject(response.errorBody()?.string() ?: "{}")
+                        } catch (e: Exception) {
+                            JSONObject()
+                        }
+                        Log.e(
+                            "Register Fail",
+                            "Status Code: ${response.code()}, Error: ${errorJson.toString()}"
+                        )
+                        apiResponseHandler.handleApiResponse(response.code(), errorJson)
+
                     }
-                    Log.e("Register Fail", "Status Code: ${response.code()}, Error: ${errorJson.toString()}")
-                    apiResponseHandler.handleApiResponse(response.code(), errorJson)
-
                 }
-            }
 
-            override fun onFailure(call: Call<RegistrationResponse>, t: Throwable) {
-                Toast.makeText(this@RegistrationActivity, "Network Error: ${t.message}", Toast.LENGTH_LONG).show()
-            }
-        })
+                override fun onFailure(call: Call<RegistrationResponse>, t: Throwable) {
+                    Toast.makeText(
+                        this@RegistrationActivity,
+                        "Network Error: ${t.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
     }
 
 
