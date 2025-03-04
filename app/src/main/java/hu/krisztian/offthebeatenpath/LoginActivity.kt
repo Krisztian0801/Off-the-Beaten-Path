@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputLayout
@@ -26,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login)) { v, insets ->
@@ -67,6 +69,10 @@ class LoginActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         if (response.isSuccessful && response.body() != null) {
                             val loginResponse = response.body()
+
+                            // 🔹 Logoljuk ki a teljes API-választ, hogy lássuk, mit küld vissza a szerver!
+                            Log.d("LoginActivity", "API response: $loginResponse")
+
                             Toast.makeText(this@LoginActivity, "Sikeres bejelentkezés!", Toast.LENGTH_SHORT).show()
 
                             val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
@@ -74,14 +80,22 @@ class LoginActivity : AppCompatActivity() {
                                 putString("user_id", loginResponse!!.user_id.toString())
                                 putString("user_password", loginResponse.user_password)
                                 putString("user_name", loginResponse.user_name)
-                                putBoolean("isAdmin", loginResponse.user_admin)
-                                apply()
+                                putString("user_email", loginResponse.user_email)
+                                putInt("isAdmin", loginResponse.user_admin)
+                                commit()
                             }
+
+                            // 🔹 Ellenőrizzük, hogy elmentődtek-e az adatok!
+                            val savedName = sharedPreferences.getString("user_name", "N/A")
+                            val savedEmail = sharedPreferences.getString("user_email", "N/A")
+
+                            Log.d("LoginActivity", "User saved: name=$savedName, email=$savedEmail")
 
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {
+                            Log.e("LoginActivity", "Hibás API válasz: ${response.errorBody()?.string()}")
                             Toast.makeText(this@LoginActivity, "Hibás email vagy jelszó!", Toast.LENGTH_SHORT).show()
                         }
                     }
