@@ -19,15 +19,15 @@ class LegalFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_legal, container, false)
         val listView: ListView = view.findViewById(R.id.legalListView)
 
-        val items = arrayOf(R.string.terms_and_conditions.toString(), R.string.privacy_policy.toString(), R.string.copyright.toString())
+        val items = arrayOf(getString(R.string.terms_and_conditions), getString(R.string.privacy_policy),getString(R.string.copyright))
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
         listView.adapter = adapter
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val url = when (position) {
-                0 -> "https://drive.google.com/file/d/1EFEgVRr1INZ93KPefOLMIGw3issQfU5Z/view" // Terms and Conditions
-                1 -> "https://drive.google.com/file/d/1XZWJ6GgoNPspwAy9SNGSQhZka4C5V7MI/view" // Privacy Policy
-                2 -> "https://drive.google.com/file/d/10t56U2YpdmWDQk-EORSrXpg-AXBKkYb8/view" // Copyright
+                0 -> "https://banki13.komarom.net/2024/off-the-beaten-path/docs/termsandconditions.pdf" // Terms and Conditions
+                1 -> "https://banki13.komarom.net/2024/off-the-beaten-path/docs/privacy.pdf" // Privacy Policy
+                2 -> "https://banki13.komarom.net/2024/off-the-beaten-path/docs/copyright.pdf" // Copyright
                 else -> null
             }
 
