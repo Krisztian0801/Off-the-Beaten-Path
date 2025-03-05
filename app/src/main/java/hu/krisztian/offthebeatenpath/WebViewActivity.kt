@@ -30,9 +30,8 @@ class WebViewActivity : AppCompatActivity() {
             webView.settings.displayZoomControls = false
             webView.webViewClient = WebViewClient()
 
-            //val googleDocsViewer = "https://docs.google.com/gview?embedded=true&url=$pdfUrl"
-            //webView.loadUrl(googleDocsViewer)
-            webView.loadUrl(pdfUrl)
+            val googleDocsViewer = "https://docs.google.com/gview?embedded=true&url=$pdfUrl"
+            webView.loadUrl(googleDocsViewer)
         }
     }
 
