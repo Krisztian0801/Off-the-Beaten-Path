@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputLayout
+import hu.krisztian.offthebeatenpath.network.User
 import hu.krisztian.offthebeatenpath.network.LoginRequest
 import hu.krisztian.offthebeatenpath.network.LoginResponse
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
@@ -28,13 +26,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_login)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         registrationButton = findViewById(R.id.registerButton)
         loginButton = findViewById(R.id.loginButton)
@@ -42,8 +34,7 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.loginPasswordEditText)
 
         registrationButton.setOnClickListener {
-            val intent = Intent(this, RegistrationActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, RegistrationActivity::class.java))
         }
 
         loginButton.setOnClickListener {
@@ -53,58 +44,61 @@ class LoginActivity : AppCompatActivity() {
             if (email.isEmpty()) {
                 emailEditText.error = getString(R.string.empty_textfield)
                 return@setOnClickListener
-            } else {
-                emailEditText.error = null
             }
 
             if (password.isEmpty()) {
                 passwordEditText.error = getString(R.string.empty_textfield)
                 return@setOnClickListener
-            } else {
-                passwordEditText.error = null
             }
 
-            RetrofitClient.loginService.login(LoginRequest(email, password))
-                .enqueue(object : Callback<LoginResponse> {
-                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                        if (response.isSuccessful && response.body() != null) {
-                            val loginResponse = response.body()
+            loginUser(email, password)
+        }
+    }
 
-                            // 🔹 Logoljuk ki a teljes API-választ, hogy lássuk, mit küld vissza a szerver!
-                            Log.d("LoginActivity", "API response: $loginResponse")
+    private fun loginUser(email: String, password: String) {
+        val request = LoginRequest(email, password)
 
-                            Toast.makeText(this@LoginActivity, "Sikeres bejelentkezés!", Toast.LENGTH_SHORT).show()
+        RetrofitClient.loginService.login(request)
+            .enqueue(object : Callback<LoginResponse> {
+                override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val user = response.body()?.user
 
-                            val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                            with(sharedPreferences.edit()) {
-                                putString("user_id", loginResponse!!.user_id.toString())
-                                putString("user_password", loginResponse.user_password)
-                                putString("user_name", loginResponse.user_name)
-                                putString("user_email", loginResponse.user_email)
-                                putInt("isAdmin", loginResponse.user_admin)
-                                commit()
-                            }
-
-                            // 🔹 Ellenőrizzük, hogy elmentődtek-e az adatok!
-                            val savedName = sharedPreferences.getString("user_name", "N/A")
-                            val savedEmail = sharedPreferences.getString("user_email", "N/A")
-
-                            Log.d("LoginActivity", "User saved: name=$savedName, email=$savedEmail")
+                        if (user != null) {
+                            Log.d("LoginActivity", "User: ${user.user_name}, Token: ${user.token}")
+                            saveUserSession(user)
 
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {
-                            Log.e("LoginActivity", "Hibás API válasz: ${response.errorBody()?.string()}")
-                            Toast.makeText(this@LoginActivity, "Hibás email vagy jelszó!", Toast.LENGTH_SHORT).show()
+                            Log.e("LoginActivity", "User object is null")
+                            Toast.makeText(this@LoginActivity, "Login failed!", Toast.LENGTH_SHORT).show()
                         }
+                    } else {
+                        val rawJson = response.errorBody()?.string() ?: "Unknown error"
+                        Log.e("LoginActivity", "Malformed JSON: $rawJson")
+                        Toast.makeText(this@LoginActivity, "Invalid email or password!", Toast.LENGTH_SHORT).show()
                     }
+                }
 
-                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        Toast.makeText(this@LoginActivity, "Hálózati hiba: ${t.message}", Toast.LENGTH_SHORT).show()
-                        Log.e("Hálózati hiba: ", "${t.message}")
-                    }
-                })
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    Log.e("API Error", "Error: ${t.message}")
+                    Toast.makeText(this@LoginActivity, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
+
+    private fun saveUserSession(user: User) {
+        val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString("user_id", user.user_id.toString())
+            putString("user_name", user.user_name)
+            putString("user_email", user.user_email)
+            putInt("isAdmin", user.user_admin)
+            putString("auth_token", user.token)
+            apply()
         }
     }
 }
