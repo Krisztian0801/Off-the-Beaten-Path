@@ -1,11 +1,15 @@
 package hu.krisztian.offthebeatenpath.network
 
+import UserService
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
+
     private const val BASE_URL = "https://banki13.komarom.net/2024/off-the-beaten-path/api/"
 
     private val logger = HttpLoggingInterceptor().apply {
@@ -16,10 +20,14 @@ object RetrofitClient {
         .addInterceptor(logger)
         .build()
 
+    private val gson: Gson = GsonBuilder()
+        .setLenient()
+        .create()
+
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson)) // ✅ Use lenient Gson parser
             .client(client)
             .build()
     }
@@ -30,5 +38,9 @@ object RetrofitClient {
 
     val registrationService: RegistrationService by lazy {
         retrofit.create(RegistrationService::class.java)
+    }
+
+    val userService: UserService by lazy {
+        retrofit.create(UserService::class.java)
     }
 }
