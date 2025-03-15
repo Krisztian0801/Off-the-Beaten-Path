@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
-
+            <!--
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonChangeProfilePicture"
                 style="@style/Widget.Material3.Button.OutlinedButton"
@@ -64,7 +64,7 @@
                 android:text="@string/change_profile_pic"
                 android:textColor="@color/greenis"
                 app:strokeColor="@color/greenis"/>
-
+-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
