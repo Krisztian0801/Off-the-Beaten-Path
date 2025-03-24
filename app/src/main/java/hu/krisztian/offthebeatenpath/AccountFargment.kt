@@ -52,9 +52,9 @@ class AccountFragment : Fragment() {
             if (!hasFocus) updateUserProfile(null, editTextEmail.text.toString(), null)
         }
 
-        view.findViewById<MaterialButton>(R.id.buttonChangeProfilePicture).setOnClickListener {
-            selectProfileImage()
-        }
+//        view.findViewById<MaterialButton>(R.id.buttonChangeProfilePicture).setOnClickListener {
+//            selectProfileImage()
+//        }
         view.findViewById<MaterialButton>(R.id.buttonChangePassword).setOnClickListener {
            changeUserPassword(R.id.editOldPassword.toString(), R.id.editNewPassword.toString())
         }
@@ -100,10 +100,6 @@ class AccountFragment : Fragment() {
     // ✅ Upload image separately using Multipart
     private fun uploadProfileImage(userId: Int, imageUri: Uri) {
         val filePath = getPathFromUri(imageUri)
-        if (filePath == null) {
-            Toast.makeText(requireContext(), "Invalid file path!", Toast.LENGTH_SHORT).show()
-            return
-        }
 
         val file = File(filePath)
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())

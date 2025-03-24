@@ -1,3 +1,5 @@
+package hu.krisztian.offthebeatenpath.network
+
 import hu.krisztian.offthebeatenpath.model.UpdateUserRequest
 import hu.krisztian.offthebeatenpath.model.UpdateUserResponse
 import okhttp3.MultipartBody

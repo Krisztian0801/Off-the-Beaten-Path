@@ -39,4 +39,9 @@
     <string name="terms_and_conditions">Általános Szerződési Feltételek</string>
     <string name="privacy_policy">Adatvédelmi Írányelvek</string>
     <string name="copyright">Szerzői Jog</string>
+    <string name="place_name">Place Name</string>
+    <string name="category">Category</string>
+    <string name="description">Description</string>
+    <string name="uploaded_by">Uploaded by</string>
+    <string name="no_internet_connection">No internet connection</string>
 </resources>
