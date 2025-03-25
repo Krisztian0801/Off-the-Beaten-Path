@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -75,14 +74,14 @@ class SettingsFragment : Fragment() {
     private fun onLogoutClick() {
         val sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
-            remove("user_id") // Token törlése
+            remove("user_id")
             apply()
         }
 
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         startActivity(intent)
 
-        requireActivity().finish() // Bezárjuk az aktuális Activity-t
+        requireActivity().finish()
     }
 }
 

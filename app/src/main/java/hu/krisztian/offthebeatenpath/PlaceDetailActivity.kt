@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import hu.krisztian.offthebeatenpath.model.PlaceResponse
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
-import hu.krisztian.offthebeatenpath.model.UpdateUserResponse
 import hu.krisztian.offthebeatenpath.model.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,14 +30,12 @@ class PlaceDetailActivity : AppCompatActivity() {
         val userTextView: TextView = findViewById(R.id.user)
 
         if (placeId != -1) {
-            // Fetch place details
             fetchPlaceDetails(placeId, placeNameTextView, categoryTextView, descriptionTextView)
         } else {
             descriptionTextView.text = "Invalid Place ID"
         }
 
         if (userId != -1) {
-            // Fetch and display the username
             fetchUserName(userId, userTextView)
         } else {
             userTextView.text = "Unknown User"
@@ -84,25 +81,20 @@ class PlaceDetailActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     response.body()?.let { userResponse ->
                         if (userResponse.success) {
-                            // Fetch and display the username
                             val username = userResponse.user?.user_name ?: "Unknown User"
                             userTextView.text = getString(R.string.uploaded_by, username)
                         } else {
-                            // Handle when the user is not found
                             userTextView.text = "User not found."
                         }
                     } ?: run {
-                        // Handle null response body
                         userTextView.text = "Failed to fetch user details."
                     }
                 } else {
-                    // Handle unsuccessful HTTP response
                     userTextView.text = "Failed to fetch user details."
                 }
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                // Handle network failure
                 userTextView.text = "Unable to connect to fetch user details."
             }
         })

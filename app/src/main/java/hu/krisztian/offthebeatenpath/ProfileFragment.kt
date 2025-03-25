@@ -21,7 +21,6 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        // 🔹 Itt hívjuk meg a `loadUserData()` függvényt!
         loadUserData()
 
         return binding.root

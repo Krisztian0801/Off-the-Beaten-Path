@@ -20,15 +20,14 @@ interface UserService {
         @Body request: UpdateUserRequest
     ): Call<UpdateUserResponse>
 
-    // ✅ Upload image separately
+    //This part is not working yet.
     @Multipart
-    @POST("upload_profile_image.php") // Use the correct API endpoint
+    @POST("upload_profile_image.php")
     fun uploadProfileImage(
         @Part("id") id: RequestBody,
         @Part profileImage: MultipartBody.Part
     ): Call<UpdateUserResponse>
 
-    // ✅ Delete user account (DELETE request)
     @DELETE("user.api.php")
     fun deleteUser(@Body request: UpdateUserRequest): Call<UpdateUserResponse>
 }

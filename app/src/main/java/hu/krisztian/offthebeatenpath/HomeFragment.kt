@@ -12,10 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hu.krisztian.offthebeatenpath.adapter.PlacesAdapter
-import hu.krisztian.offthebeatenpath.model.PlaceResponse
 import hu.krisztian.offthebeatenpath.network.NetworkHelper
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
-import hu.krisztian.offthebeatenpath.PlaceDetailActivity
 import hu.krisztian.offthebeatenpath.model.PlacesListResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,7 +50,6 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful) {
                     val places = response.body()?.message // Extract single Place object
                     if (places != null) {
-                         // Wrap the single Place object into a list
 
                         placesAdapter = PlacesAdapter(places) { selectedPlace ->
                             val intent = Intent(requireActivity(), PlaceDetailActivity::class.java)

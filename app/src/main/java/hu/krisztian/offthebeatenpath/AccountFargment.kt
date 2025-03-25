@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -74,7 +73,6 @@ class AccountFragment : Fragment() {
             return
         }
 
-        // ✅ Step 1: Update user info (JSON request)
         val request = UpdateUserRequest(id = userId, username = username, email = email)
         RetrofitClient.userService.updateUser(request)
             .enqueue(object : Callback<UpdateUserResponse> {
@@ -84,7 +82,6 @@ class AccountFragment : Fragment() {
                         email?.let { saveLocalUserData("user_email", it) }
                         Toast.makeText(requireContext(), "Profile updated!", Toast.LENGTH_SHORT).show()
 
-                        // ✅ Step 2: If there is a new image, upload it separately
                         imageUri?.let { uploadProfileImage(userId, it) }
                     } else {
                         Toast.makeText(requireContext(), "Failed to update profile!", Toast.LENGTH_SHORT).show()
@@ -97,7 +94,6 @@ class AccountFragment : Fragment() {
             })
     }
 
-    // ✅ Upload image separately using Multipart
     private fun uploadProfileImage(userId: Int, imageUri: Uri) {
         val filePath = getPathFromUri(imageUri)
 
@@ -175,14 +171,12 @@ class AccountFragment : Fragment() {
             return
         }
 
-        // ✅ Create JSON request object
         val request = UpdateUserRequest(
             id = userId,
             oldPassword = oldPassword,
             newPassword = newPassword
         )
 
-        // ✅ Send JSON request
         RetrofitClient.userService.updateUser(request)
             .enqueue(object : Callback<UpdateUserResponse> {
                 override fun onResponse(call: Call<UpdateUserResponse>, response: Response<UpdateUserResponse>) {

@@ -22,15 +22,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 🔐 Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
         sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
         val token = sharedPreferences.getString("user_id", null)
 
         if (token.isNullOrEmpty()) {
-            // Ha nincs token, akkor a bejelentkezési képernyőre irányítunk
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish() // Ne engedjük vissza a MainActivity-be a Back gombbal
+            finish()
             return
         }
 
