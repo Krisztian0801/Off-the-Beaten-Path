@@ -2,14 +2,19 @@ package hu.krisztian.offthebeatenpath.network
 
 import hu.krisztian.offthebeatenpath.model.PlaceRequest
 import hu.krisztian.offthebeatenpath.model.PlaceResponse
+import hu.krisztian.offthebeatenpath.model.PlacesListResponse
 import retrofit2.Call
 import retrofit2.http.*
 
 interface PlaceService {
 
-    // Get all POIs or a single POI by ID
+    // Get all POIs
     @GET("places.api.php")
-    fun getPOIs(@Query("id") poiId: Int? = null): Call<PlaceResponse>
+    fun getAllPOIs(): Call<PlacesListResponse>
+
+    // Get a single POI by ID
+    @GET("places.api.php")
+    fun getPOIById(@Query("id") poiId: Int): Call<PlaceResponse>
 
     // Add a new POI
     @POST("places.api.php")

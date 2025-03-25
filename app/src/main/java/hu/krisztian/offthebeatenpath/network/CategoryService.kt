@@ -6,5 +6,5 @@ import retrofit2.http.Query
 
 interface CategoryService {
     @GET("category.api.php")
-    suspend fun getCategory(@Query("id") categoryId: String): CategoryResponse
+    suspend fun getCategory(@Query("id") categoryId: Int): CategoryResponse
 }

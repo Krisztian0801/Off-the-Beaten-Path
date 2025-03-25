@@ -2,6 +2,7 @@ package hu.krisztian.offthebeatenpath
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import hu.krisztian.offthebeatenpath.adapter.PlacesAdapter
 import hu.krisztian.offthebeatenpath.model.PlaceResponse
 import hu.krisztian.offthebeatenpath.network.NetworkHelper
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
+import hu.krisztian.offthebeatenpath.PlaceDetailActivity
+import hu.krisztian.offthebeatenpath.model.PlacesListResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,26 +47,40 @@ class HomeFragment : Fragment() {
     }
 
     private fun fetchPlaces() {
-        RetrofitClient.placesService.getPOIs().enqueue(object : Callback<PlaceResponse> {
-            override fun onResponse(
-                call: Call<PlaceResponse>,
-                response: Response<PlaceResponse>
-            ) {
+        RetrofitClient.placesService.getAllPOIs().enqueue(object : Callback<PlacesListResponse> {
+            override fun onResponse(call: Call<PlacesListResponse>, response: Response<PlacesListResponse>) {
                 if (response.isSuccessful) {
-                    val places = response.body()?.message ?: emptyList()
-                    placesAdapter = PlacesAdapter(places) { place ->
-                        val intent = Intent(activity, PlaceDetailActivity::class.java)
-                        intent.putExtra("place_id", place.poi_id)
-                        startActivity(intent)
+                    val places = response.body()?.message // Extract single Place object
+                    if (places != null) {
+                         // Wrap the single Place object into a list
+
+                        placesAdapter = PlacesAdapter(places) { selectedPlace ->
+                            val intent = Intent(requireActivity(), PlaceDetailActivity::class.java)
+                            startActivity(intent)
+                        }
+                        recyclerView.adapter = placesAdapter
+                    } else {
+                        Log.e("HomeFragment", "Place not found")
+                        showError("No places available.")
                     }
-                    recyclerView.adapter = placesAdapter
+                } else {
+                    Log.e("HomeFragment", "Error: ${response.code()}")
+                    showError("Failed to load places. Please try again later.")
                 }
             }
 
-            override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
+            override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
                 Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
+
         })
+    }
+
+
+
+
+    private fun showError(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
 
