@@ -29,5 +29,5 @@ interface UserService {
     ): Call<UpdateUserResponse>
 
     @DELETE("user.api.php")
-    fun deleteUser(@Body request: UpdateUserRequest): Call<UpdateUserResponse>
+    fun deleteUser(@Query("id") userId: Int): Call<UserResponse>
 }

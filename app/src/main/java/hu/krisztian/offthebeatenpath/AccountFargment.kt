@@ -17,6 +17,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import hu.krisztian.offthebeatenpath.model.UpdateUserRequest
 import hu.krisztian.offthebeatenpath.model.UpdateUserResponse
+import hu.krisztian.offthebeatenpath.model.UserResponse
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -32,6 +33,8 @@ class AccountFragment : Fragment() {
 
     private lateinit var editTextName: TextInputEditText
     private lateinit var editTextEmail: TextInputEditText
+    private lateinit var editOldPassword: TextInputEditText
+    private lateinit var editNewPassword: TextInputEditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +46,8 @@ class AccountFragment : Fragment() {
 
         editTextName = view.findViewById(R.id.editTextName)
         editTextEmail = view.findViewById(R.id.editTextEmail)
+        editOldPassword = view.findViewById(R.id.editOldPassword)
+        editNewPassword = view.findViewById(R.id.editNewPassword)
 
         editTextName.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) updateUserProfile(editTextName.text.toString(), null, null)
@@ -55,7 +60,7 @@ class AccountFragment : Fragment() {
 //            selectProfileImage()
 //        }
         view.findViewById<MaterialButton>(R.id.buttonChangePassword).setOnClickListener {
-           changeUserPassword(R.id.editOldPassword.toString(), R.id.editNewPassword.toString())
+           changeUserPassword(editOldPassword.text.toString(), editNewPassword.text.toString())
         }
         view.findViewById<MaterialButton>(R.id.buttonDeleteAccount).setOnClickListener {
             confirmDeleteAccount()
@@ -215,11 +220,10 @@ class AccountFragment : Fragment() {
             return
         }
 
-        val request = UpdateUserRequest(id = userId)
 
-        RetrofitClient.userService.deleteUser(request).enqueue(object : Callback<UpdateUserResponse> {
-            override fun onResponse(call: Call<UpdateUserResponse>, response: Response<UpdateUserResponse>) {
-                if (response.isSuccessful && response.body()?.success == true) {
+        RetrofitClient.userService.deleteUser(userId).enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
                     Toast.makeText(requireContext(), "Account deleted successfully!", Toast.LENGTH_SHORT).show()
                     logoutAndRedirect()
                 } else {
@@ -227,7 +231,7 @@ class AccountFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<UpdateUserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
