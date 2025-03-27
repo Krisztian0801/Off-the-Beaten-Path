@@ -42,13 +42,21 @@ class PlacesAdapter(
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val response = RetrofitClient.categoryService.getCategory(place.category_id)
+                    val response = RetrofitClient.categoryService.getCategory(place.category_id).execute() // Blocking call
                     withContext(Dispatchers.Main) {
-                        categoryTextView.text = response.category
+                        if (response.isSuccessful) {
+                            response.body()?.let { categoryResponse ->
+                                categoryTextView.text = categoryResponse.category
+                            } ?: run {
+                                categoryTextView.text = "Unknown Category"
+                            }
+                        } else {
+                            categoryTextView.text = "Error: ${response.code()}"
+                        }
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
-                        categoryTextView.text = "Unknown Category"
+                        categoryTextView.text = "Network Error"
                     }
                 }
             }
@@ -57,8 +65,8 @@ class PlacesAdapter(
                 val intent = Intent(itemView.context, PlaceDetailActivity::class.java)
                 intent.putExtra("PLACE_ID", place.poi_id)
                 intent.putExtra("PLACE_NAME", place.poi_name)
-                intent.putExtra("CATEGORY_NAME", categoryTextView.text.toString())
-                intent.putExtra("DESCRIPTION", place.poi_description)
+                intent.putExtra("CATEGORY_ID", place.category_id)
+                intent.putExtra("DESCRIPTION", place.poi_discription)
                 intent.putExtra("USER_ID", place.user_id)
                 itemView.context.startActivity(intent)
             }

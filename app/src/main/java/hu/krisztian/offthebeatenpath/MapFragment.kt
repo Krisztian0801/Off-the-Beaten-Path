@@ -17,7 +17,15 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import hu.krisztian.offthebeatenpath.model.CoordinateResponse
+import hu.krisztian.offthebeatenpath.model.Place
+import hu.krisztian.offthebeatenpath.model.PlacesListResponse
+import hu.krisztian.offthebeatenpath.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -54,11 +62,80 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
+
         if (checkLocationPermissions()) {
             enableMyLocation()
             getLastKnownLocation()
         }
+
+        loadPlacesFromAPI() // Fetch places from API
+
+        googleMap.setOnMapLongClickListener { latLng ->
+            showAddPlaceBottomSheet(latLng)
+        }
     }
+    private fun showAddPlaceBottomSheet(latLng: LatLng) {
+        val bottomSheet = AddPlaceBottomSheetFragment(
+            latLng.latitude,
+            latLng.longitude,
+            userId = 1 // Replace with actual user ID
+        ) { newPlace ->
+            fetchCoordinatesAndAddMarker(newPlace.message)
+        }
+        bottomSheet.show(parentFragmentManager, "AddPlaceBottomSheet")
+    }
+
+    private fun addMarker(latLng: LatLng, title: String, description: String) {
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(description)
+        )
+    }
+    private fun loadPlacesFromAPI() {
+        val apiService = RetrofitClient.placesService
+        val call = apiService.getAllPOIs()
+
+        call.enqueue(object : Callback<PlacesListResponse> {
+            override fun onResponse(call: Call<PlacesListResponse>, response: Response<PlacesListResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { placesList ->
+                        for (place in placesList.message) {
+                            fetchCoordinatesAndAddMarker(place)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "Failed to load places: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun fetchCoordinatesAndAddMarker(place: Place) {
+        val apiService = RetrofitClient.placesService
+        val call = apiService.getCoordinates(place.coordinate_id)
+
+        call.enqueue(object : Callback<CoordinateResponse> {
+            override fun onResponse(call: Call<CoordinateResponse>, response: Response<CoordinateResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { coordinateResponse ->
+                        place.latitude = coordinateResponse.message.coordinate_latitude
+                        place.longitude = coordinateResponse.message.coordinate_longitude
+                        addMarker(LatLng(place.latitude!!, place.longitude!!), place.poi_name, place.poi_discription ?: "")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<CoordinateResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "Failed to fetch coordinates: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
 
     private fun checkLocationPermissions(): Boolean {
         return if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -110,6 +187,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {

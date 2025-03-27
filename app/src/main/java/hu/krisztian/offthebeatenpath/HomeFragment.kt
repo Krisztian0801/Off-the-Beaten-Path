@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         noInternetTextView = view.findViewById(R.id.noInternetTextView)
 
-        if (NetworkHelper.isMobileDataEnabled(requireContext())) {
+        if (NetworkHelper.isMobileDataEnabled(requireContext()) || NetworkHelper.isWiFiEnabled(requireContext()) || NetworkHelper.isInternetAvailable()) {
             fetchPlaces()
         } else {
             noInternetTextView.visibility = View.VISIBLE
@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
                     val places = response.body()?.message // Extract single Place object
                     if (places != null) {
 
-                        placesAdapter = PlacesAdapter(places) { selectedPlace ->
+                        placesAdapter = PlacesAdapter(places) {
                             val intent = Intent(requireActivity(), PlaceDetailActivity::class.java)
                             startActivity(intent)
                         }

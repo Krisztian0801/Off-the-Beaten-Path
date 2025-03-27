@@ -44,4 +44,12 @@
     <string name="description">Leírás</string>
     <string name="uploaded_by">Feltöltötte: %1$s</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="error_fetch_categories" />
+    <string name="error_fetch_landmarks">Error on fectch landmark</string>
+    <string name="error_save_place">Cannot save place!</string>
+    <string name="error_invalid_selection">Invalid select\n</string>
+    <string name="error_select_landmark">Fill the field\n</string>
+    <string name="error_select_category">Fill the field\n</string>
+    <string name="error_place_name_empty">Fill the field</string>
+    <string name="add_place">Add place</string>
 </resources>

@@ -2,7 +2,7 @@ package hu.krisztian.offthebeatenpath.model
 
 data class PlaceRequest(
     val poi_name: String,
-    val poi_description: String,
+    val poi_discription: String,
     val latitude: Double?,
     val longitude: Double?,
     val landmark_id: Int,

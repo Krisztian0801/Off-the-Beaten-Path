@@ -1,5 +1,6 @@
 package hu.krisztian.offthebeatenpath.network
 
+import hu.krisztian.offthebeatenpath.model.CoordinateResponse
 import hu.krisztian.offthebeatenpath.model.PlaceRequest
 import hu.krisztian.offthebeatenpath.model.PlaceResponse
 import hu.krisztian.offthebeatenpath.model.PlacesListResponse
@@ -22,4 +23,8 @@ interface PlaceService {
 
     @DELETE("places.api.php")
     fun deletePOI(@Query("id") poiId: Int): Call<PlaceResponse>
+
+    @GET("coordinates.api.php") // New endpoint to fetch coordinates
+    fun getCoordinates(@Query("id") coordinateId: Int): Call<CoordinateResponse>
 }
+

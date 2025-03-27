@@ -36,4 +36,5 @@ object RetrofitClient {
     val userService: UserService by lazy { retrofit.create(UserService::class.java) }
     val placesService: PlaceService by lazy { retrofit.create(PlaceService::class.java) }
     val categoryService: CategoryService by lazy { retrofit.create(CategoryService::class.java) }
+    val landmarkService: LandmarkService by lazy { retrofit.create(LandmarkService::class.java) }
 }

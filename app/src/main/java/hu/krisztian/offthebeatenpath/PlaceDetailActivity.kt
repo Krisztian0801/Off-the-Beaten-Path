@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import hu.krisztian.offthebeatenpath.model.CategoryResponse
 import hu.krisztian.offthebeatenpath.model.PlaceResponse
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
 import hu.krisztian.offthebeatenpath.model.UserResponse
@@ -22,6 +23,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         // Retrieve the place ID and user ID passed from the adapter
         val placeId = intent.getIntExtra("PLACE_ID", -1)
         val userId = intent.getIntExtra("USER_ID", -1)
+        val categoryId = intent.getIntExtra("CATEGORY_ID", -1)
         Log.d("PlaceDetailActivity", "Place ID: $placeId, User ID: $userId")
         // Initialize views
         val placeNameTextView: TextView = findViewById(R.id.poiName)
@@ -40,6 +42,11 @@ class PlaceDetailActivity : AppCompatActivity() {
         } else {
             userTextView.text = "Unknown User"
         }
+        if (categoryId != -1) {
+            fetchCategoryName(categoryId, categoryTextView)
+        } else {
+            categoryTextView.text = "Unknown Category"
+        }
     }
 
     private fun fetchPlaceDetails(
@@ -55,9 +62,8 @@ class PlaceDetailActivity : AppCompatActivity() {
                     Log.d("PlaceDetail", "Response Body: ${response.body()}")
                     if (place != null) {
                         placeNameTextView.text = place.poi_name
-                        categoryTextView.text = place.category_id.toString()
-                        descriptionTextView.text = place.poi_description ?: "No description provided."
-                        Log.d("PlaceDetail", "Place Name: ${place.poi_name}, Description: ${place.poi_description}")
+                        descriptionTextView.text = place.poi_discription ?: "No description provided."
+                        Log.d("PlaceDetail", "Place Name: ${place.poi_name}, Description: ${place.poi_discription}")
 
                     } else {
                         descriptionTextView.text = "Details not found."
@@ -96,6 +102,29 @@ class PlaceDetailActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 userTextView.text = "Unable to connect to fetch user details."
+            }
+        })
+    }
+    private fun fetchCategoryName(categoryId: Int, categoryTextView: TextView) {
+        RetrofitClient.categoryService.getCategory(categoryId).enqueue(object : Callback<CategoryResponse> {
+            override fun onResponse(call: Call<CategoryResponse>, response: Response<CategoryResponse>) {
+                categoryTextView.post {
+                    if (response.isSuccessful) {
+                        response.body()?.let { categoryResponse ->
+                            categoryTextView.text = categoryResponse.category
+                        } ?: run {
+                            categoryTextView.text = "Category not found."
+                        }
+                    } else {
+                        categoryTextView.text = "Error: ${response.code()}"
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+                categoryTextView.post {
+                    categoryTextView.text = "Network error: ${t.localizedMessage}"
+                }
             }
         })
     }

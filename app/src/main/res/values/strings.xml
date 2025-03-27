@@ -46,4 +46,12 @@
     <string name="description">Description</string>
     <string name="uploaded_by">Uploaded by: %1$s</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="error_fetch_categories" >Error on fetches categories</string>
+    <string name="error_fetch_landmarks">Error on fetches landmarks</string>
+    <string name="error_save_place">Cannot save place!</string>
+    <string name="error_invalid_selection">Invalid select\n</string>
+    <string name="error_select_landmark">Fill the field\n</string>
+    <string name="error_select_category">Fill the field\n</string>
+    <string name="error_place_name_empty">Fill the field</string>
+    <string name="add_place">Add place</string>
 </resources>
