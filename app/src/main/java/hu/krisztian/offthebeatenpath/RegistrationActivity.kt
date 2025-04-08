@@ -96,7 +96,7 @@ class RegistrationActivity : AppCompatActivity() {
 
                         Toast.makeText(
                             this@RegistrationActivity,
-                            "Registration Successful!",
+                            getString(R.string.registration_successful),
                             Toast.LENGTH_SHORT
                         ).show()
                         Log.i("Register Success", "Status Code: ${response.code()}")
@@ -120,7 +120,7 @@ class RegistrationActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<RegistrationResponse>, t: Throwable) {
                     Toast.makeText(
                         this@RegistrationActivity,
-                        "Network Error: ${t.message}",
+                        getString(R.string.network_error, t.message),
                         Toast.LENGTH_LONG
                     ).show()
                 }

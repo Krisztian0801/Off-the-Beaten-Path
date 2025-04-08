@@ -58,16 +58,16 @@ class HomeFragment : Fragment() {
                         recyclerView.adapter = placesAdapter
                     } else {
                         Log.e("HomeFragment", "Place not found")
-                        showError("No places available.")
+                        showError(getString(R.string.no_places_available))
                     }
                 } else {
                     Log.e("HomeFragment", "Error: ${response.code()}")
-                    showError("Failed to load places. Please try again later.")
+                    showError(getString(R.string.failed_to_load_places_please_try_again_later))
                 }
             }
 
             override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.network_error, t.message), Toast.LENGTH_SHORT).show()
             }
 
         })

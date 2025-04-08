@@ -73,18 +73,20 @@ class LoginActivity : AppCompatActivity() {
                             finish()
                         } else {
                             Log.e("LoginActivity", "User object is null")
-                            Toast.makeText(this@LoginActivity, "Login failed!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@LoginActivity,
+                                getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
                         }
                     } else {
                         val rawJson = response.errorBody()?.string() ?: "Unknown error"
                         Log.e("LoginActivity", "Malformed JSON: $rawJson")
-                        Toast.makeText(this@LoginActivity, "Invalid email or password!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity,
+                            getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     Log.e("API Error", "Error: ${t.message}")
-                    Toast.makeText(this@LoginActivity, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, getString(R.string.network_error, t.message), Toast.LENGTH_SHORT).show()
                 }
             })
     }

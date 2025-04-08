@@ -19,7 +19,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +36,7 @@ class AddPlaceBottomSheetFragment(
     ): View {
         val view = inflater.inflate(R.layout.add_place, container, false)
 
-        val etPlaceName = view.findViewById<TextInputEditText>(R.id.placeNameTextView)
+        val etPlaceName = view.findViewById<TextInputEditText>(R.id.laceNameEditText)
         val categoryDropdown = view.findViewById<AutoCompleteTextView>(R.id.categoryDropdown)
         val landmarkDropdown = view.findViewById<AutoCompleteTextView>(R.id.landmarkDropdown)
         val btnSave = view.findViewById<Button>(R.id.savePlaceButton)

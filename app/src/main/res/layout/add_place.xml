@@ -28,13 +28,13 @@
             android:id="@+id/placeNameTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Place Name"
+            android:hint="@string/place_name"
             app:boxStrokeColor="@color/greenis"
             app:cursorColor="@color/greenis"
             app:hintTextColor="@color/greenis">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/placeNameTextView"
+                android:id="@+id/laceNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -45,7 +45,7 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Category">
+            android:hint="@string/category">
 
             <AutoCompleteTextView
                 android:id="@+id/categoryDropdown"
@@ -59,7 +59,7 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Landmark">
+            android:hint="@string/landmark">
 
             <AutoCompleteTextView
                 android:id="@+id/landmarkDropdown"
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Save Place"
+            android:text="@string/save_place"
             android:textColor="@color/greenis"
             app:strokeColor="@color/greenis" />
 

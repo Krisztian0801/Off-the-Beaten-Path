@@ -7,7 +7,13 @@
     <style name="CustomToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:textStyle">bold</item>
     </style>
-    <style name="Theme.OffTheBeatenPath" parent="Base.Theme.OffTheBeatenPath" />
+    <style name="Theme.OffTheBeatenPath" parent="Base.Theme.OffTheBeatenPath" >
+        <item name="android:popupMenuStyle">@style/CustomPopupMenuText</item>
+    </style>
+
+    <style name="CustomPopupMenuText" parent="TextAppearance.AppCompat.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="banner">
     </style>
     <style name="button">

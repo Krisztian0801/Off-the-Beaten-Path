@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -75,10 +76,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
     private fun showAddPlaceBottomSheet(latLng: LatLng) {
+        val userIdString = requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE).getString("user_id", null)
+        val userId = userIdString?.toIntOrNull() ?: -1
         val bottomSheet = AddPlaceBottomSheetFragment(
             latLng.latitude,
             latLng.longitude,
-            userId = 1 // Replace with actual user ID
+            userId =  userId // Replace with actual user ID"
         ) { newPlace ->
             fetchCoordinatesAndAddMarker(newPlace.message)
         }
@@ -109,7 +112,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Failed to load places: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.failed_to_load_places, t.message), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -130,7 +133,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             override fun onFailure(call: Call<CoordinateResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Failed to fetch coordinates: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.failed_to_fetch_coordinates, t.message), Toast.LENGTH_SHORT).show()
             }
         })
     }
