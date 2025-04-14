@@ -87,11 +87,11 @@ class ProfileFragment : Fragment() {
                         }
                         recyclerView.adapter = placesAdapter
                     } else {
-                        Log.e("HomeFragment", "Place not found")
+                        Log.e("ProfileFragment", "Place not found")
                         showError(getString(R.string.no_places_available))
                     }
                 } else {
-                    Log.e("HomeFragment", "Error: ${response.code()}")
+                    Log.e("ProfileFragment", "Error: ${response.code()}")
                     showError(getString(R.string.failed_to_load_places_please_try_again_later))
                 }
             }
