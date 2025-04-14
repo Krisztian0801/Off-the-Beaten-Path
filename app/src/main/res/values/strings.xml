@@ -82,4 +82,5 @@
     <string name="landmark">Landmark</string>
     <string name="save_changes">Save Changes</string>
     <string name="save_place">Save Place</string>
+    <string name="success_save_place">Place successfully saved</string>
 </resources>
