@@ -6,15 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import hu.krisztian.offthebeatenpath.adapter.PlacesAdapter
 import hu.krisztian.offthebeatenpath.databinding.FragmentProfileBinding
 import hu.krisztian.offthebeatenpath.model.PlacesListResponse
+import hu.krisztian.offthebeatenpath.network.NetworkHelper
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +30,9 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var placesAdapter: PlacesAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var profileSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var profileNoInternetTextView: TextView
+    private lateinit var profileTryAgainButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +43,23 @@ class ProfileFragment : Fragment() {
 
         binding.profileRecyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView = binding.profileRecyclerView
+        profileSwipeRefreshLayout = binding.profileSwipeRefreshLayout
+        profileNoInternetTextView = binding.profileNoInternetTextView
+        profileTryAgainButton = binding.profileTryAgainButton
+
+        placesAdapter = PlacesAdapter(emptyList())
+        recyclerView.adapter = placesAdapter
 
         loadUserData()
         fetchPlaces()
+
+        profileSwipeRefreshLayout.setOnRefreshListener {
+            if (hasInternet()) {
+                fetchPlaces()
+            } else {
+                showNoInternet()
+            }
+        }
 
         return binding.root
     }
@@ -70,16 +91,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun fetchPlaces() {
+        profileSwipeRefreshLayout.isRefreshing = true
+
         val userIdString = requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE).getString("user_id", null)
         val userId = userIdString?.toIntOrNull() ?: -1
         RetrofitClient.placesService.getPOIsByUserID(userId).enqueue(object : Callback<PlacesListResponse> {
             override fun onResponse(call: Call<PlacesListResponse>, response: Response<PlacesListResponse>) {
+                profileSwipeRefreshLayout.isRefreshing = false
                 if (response.isSuccessful) {
                     val places = response.body()?.message
                     if (places != null) {
-
-                        placesAdapter = PlacesAdapter(places)
-                        recyclerView.adapter = placesAdapter
+                        placesAdapter.updateData(places)
                     } else {
                         Log.e("ProfileFragment", "Place not found")
                         showError(getString(R.string.no_places_available))
@@ -98,6 +120,21 @@ class ProfileFragment : Fragment() {
     }
     private fun showError(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+    }
+    private fun hasInternet(): Boolean {
+        return NetworkHelper.isMobileDataEnabled(requireContext()) ||
+                NetworkHelper.isWiFiEnabled(requireContext()) ||
+                NetworkHelper.isInternetAvailable()
+    }
+
+    private fun showNoInternet() {
+        profileNoInternetTextView.visibility = View.VISIBLE
+        profileTryAgainButton.visibility = View.VISIBLE
+    }
+
+    private fun hideNoInternet() {
+        profileNoInternetTextView.visibility = View.GONE
+        profileNoInternetTextView.visibility = View.GONE
     }
 
 }
