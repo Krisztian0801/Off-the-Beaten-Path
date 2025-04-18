@@ -26,7 +26,7 @@ interface PlaceService {
     fun updatePOI(@Query("poi_id") poiId: Int, @Body placeRequest: PlaceRequest): Call<PlaceUpdateResponse>
 
     @DELETE("places.api.php")
-    fun deletePOI(@Query("id") poiId: Int): Call<PlaceResponse>
+    fun deletePOI(@Query("id") poiId: Int): Call<PlaceUpdateResponse>
 
     @GET("coordinates.api.php") // New endpoint to fetch coordinates
     fun getCoordinates(@Query("id") coordinateId: Int): Call<CoordinateResponse>

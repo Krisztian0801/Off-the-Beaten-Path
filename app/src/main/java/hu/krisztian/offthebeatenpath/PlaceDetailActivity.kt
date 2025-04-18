@@ -1,5 +1,6 @@
 package hu.krisztian.offthebeatenpath
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -50,6 +51,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var editPlaceDetails: LinearLayout
 
     private var landmarkName: String? = null
+    private var placeName: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +93,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     true
                 }
                 R.id.action_delete -> {
-                    Toast.makeText(this, "Delete clicked", Toast.LENGTH_SHORT).show()
+                    confirmDeletePlace()
                     true
                 }
                 else -> false
@@ -193,7 +195,43 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun deletePlace() {
+        val placeId = intent.getIntExtra("PLACE_ID", -1)
 
+        RetrofitClient.placesService.deletePOI(placeId).enqueue(object : Callback<PlaceUpdateResponse>{
+            override fun onResponse(
+                call: Call<PlaceUpdateResponse>,
+                response: Response<PlaceUpdateResponse>
+            ) {
+                if(response.isSuccessful && response.body()?.success == true){
+                    Toast.makeText(this@PlaceDetailActivity, getString(R.string.place_deleted_successfully), Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this@PlaceDetailActivity, getString(R.string.cannot_deleted_the_place), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<PlaceUpdateResponse>, t: Throwable) {
+                Toast.makeText(this@PlaceDetailActivity,  getString(R.string.cannot_deleted_the_place), Toast.LENGTH_SHORT).show()
+                Log.e("HIBA",  "${getString(R.string.cannot_deleted_the_place)} : ${t.message}")
+            }
+        })
+    }
+
+    private fun confirmDeletePlace() {
+        AlertDialog.Builder(this@PlaceDetailActivity)
+            .setTitle(getString(R.string.delete_place))
+            .setMessage(
+                getString(
+                    R.string.are_you_sure_you_want_to_delete_named_place_this_action_cannot_be_undone,
+                    placeName
+                ))
+            .setPositiveButton(getString(R.string.yes_delete)) { _, _ ->
+                deletePlace();
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val loggedInUserId = getLoggedInUserId()
@@ -262,6 +300,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     val place = response.body()?.message
                     Log.d("PlaceDetail", "Response Body: ${response.body()}")
                     if (place != null) {
+                        placeName = place.poi_name
                         fetchCoordinatesAndAddMarker(place)
                     } else {
                         Toast.makeText(this@PlaceDetailActivity,

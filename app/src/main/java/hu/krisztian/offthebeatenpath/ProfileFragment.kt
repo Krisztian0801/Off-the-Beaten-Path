@@ -42,7 +42,6 @@ class ProfileFragment : Fragment() {
         loadUserData()
         fetchPlaces()
 
-        // Return the root view of the binding
         return binding.root
     }
 
