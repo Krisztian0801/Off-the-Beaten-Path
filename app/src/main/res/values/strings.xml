@@ -27,8 +27,8 @@
     <string name="log_out">Log Out</string>
     <string name="account">Account</string>
     <string name="language">Language</string>
-    <string name="english_uk">English (UK)</string>
-    <string name="hungarian">Hungarian</string>
+    <string name="english_uk" translatable="false">English (UK)</string>
+    <string name="hungarian" translatable="false">Magyar</string>
     <string name="new_password">New Password</string>
     <string name="old_password">Old Password</string>
     <string name="app_version_format">Version: %1$s</string>

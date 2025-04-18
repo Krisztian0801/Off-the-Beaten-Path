@@ -25,8 +25,6 @@
     <string name="log_out">Kijelentkezés</string>
     <string name="account">Fiók</string>
     <string name="language">Nyelv</string>
-    <string name="english_uk">Angol (Egyesült Királyság)</string>
-    <string name="hungarian">Magyar</string>
     <string name="new_password">Új Jelszó</string>
     <string name="old_password">Régi Jelszó</string>
     <string name="app_version_format">Verzió: %1$s</string>
@@ -95,4 +93,5 @@
     <string name="failed_to_update_password">Jelszó módosítása sikertelen!</string>
     <string name="account_deleted_successfully">A fiókot sikeresen töröltük!</string>
     <string name="try_again">Újra probál</string>
+    <string name="failed_to_delete_account">A fiók törlése sikertelen</string>
 </resources>
