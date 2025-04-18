@@ -70,7 +70,7 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     // Unit teszteléshez
-    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.android)
     testImplementation(libs.mockito.inline)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.robolectric)
