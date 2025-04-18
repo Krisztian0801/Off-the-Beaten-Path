@@ -76,7 +76,6 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful) {
                     val places = response.body()?.message
                     if (places != null) {
-                        // 🔁 Adapter frissítése meglévő példányon
                         placesAdapter.updateData(places)
                     } else {
                         Log.e("HomeFragment", "Place not found")
