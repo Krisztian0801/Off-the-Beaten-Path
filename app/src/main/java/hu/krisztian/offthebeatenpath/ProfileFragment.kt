@@ -1,7 +1,6 @@
 package hu.krisztian.offthebeatenpath
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -32,10 +31,9 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Properly initialize the binding
+
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        // Access the binding to initialize RecyclerView
         binding.profileRecyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView = binding.profileRecyclerView
 
@@ -80,10 +78,7 @@ class ProfileFragment : Fragment() {
                     val places = response.body()?.message
                     if (places != null) {
 
-                        placesAdapter = PlacesAdapter(places) {
-                            val intent = Intent(requireActivity(), PlaceDetailActivity::class.java)
-                            startActivity(intent)
-                        }
+                        placesAdapter = PlacesAdapter(places)
                         recyclerView.adapter = placesAdapter
                     } else {
                         Log.e("ProfileFragment", "Place not found")

@@ -14,8 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -102,7 +100,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
        saveEditPlaceButton.setOnClickListener {
-           saveEditedPlace();
+           saveEditedPlace()
        }
         val placeId = intent.getIntExtra("PLACE_ID", -1)
         val userId = intent.getIntExtra("USER_ID", -1)
@@ -227,7 +225,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     placeName
                 ))
             .setPositiveButton(getString(R.string.yes_delete)) { _, _ ->
-                deletePlace();
+                deletePlace()
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
@@ -265,7 +263,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         return super.onPrepareOptionsMenu(menu)
     }
     private fun getLoggedInUserId(): Int {
-        val userIdString = getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE).getString("user_id", null)
+        val userIdString = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("user_id", null)
         val userId = userIdString?.toIntOrNull() ?: -1
         return userId
     }
@@ -354,7 +352,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private suspend fun fetchPlaceDetails(
         placeId: Int,
         placeNameTextView: TextView,
-        categoryTextView: TextView,
+            categoryTextView: TextView,
         descriptionTextView: TextView
     ) {
         withContext(Dispatchers.IO) {

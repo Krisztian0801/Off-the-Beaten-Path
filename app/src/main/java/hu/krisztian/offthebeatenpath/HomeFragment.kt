@@ -1,6 +1,5 @@
 package hu.krisztian.offthebeatenpath
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -41,14 +40,10 @@ class HomeFragment : Fragment() {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         tryAgainButton = view.findViewById(R.id.tryAgainButton)
 
-        // 👉 Kezdetben üres adapter beállítása
-        placesAdapter = PlacesAdapter(emptyList()) {
-            val intent = Intent(requireActivity(), PlaceDetailActivity::class.java)
-            startActivity(intent)
-        }
+        placesAdapter = PlacesAdapter(emptyList())
         recyclerView.adapter = placesAdapter
 
-        // 👉 Adatok betöltése első indításkor
+
         fetchPlaces()
 
         swipeRefreshLayout.setOnRefreshListener {

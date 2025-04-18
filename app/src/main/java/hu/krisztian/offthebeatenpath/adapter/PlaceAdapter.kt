@@ -1,5 +1,6 @@
 package hu.krisztian.offthebeatenpath.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class PlacesAdapter(
-    private var places: List<Place>,
-    private val onItemClick: (Place) -> Unit
+    private var places: List<Place>
 ) : RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlacesViewHolder {
@@ -53,15 +53,15 @@ class PlacesAdapter(
                             response.body()?.let { categoryResponse ->
                                 categoryTextView.text = categoryResponse.category
                             } ?: run {
-                                categoryTextView.text = "Unknown Category"
+                                categoryTextView.text = R.string.unknown_category.toString()
                             }
                         } else {
-                            categoryTextView.text = "Error: ${response.code()}"
+                            categoryTextView.text = "${R.string.error}: ${response.code()}"
                         }
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
-                        categoryTextView.text = "Network Error"
+                        categoryTextView.text = R.string.network_error.toString()
                     }
                 }
             }
