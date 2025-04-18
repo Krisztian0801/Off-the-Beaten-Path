@@ -3,15 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPlaces"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/place_list_item"
-        />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPlaces"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/place_list_item"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     <TextView
         android:id="@+id/noInternetTextView"
         android:layout_width="match_parent"
@@ -20,6 +30,17 @@
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:visibility="gone"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/tryAgainButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/try_again"
+        android:textColor="@color/greenis"
+        app:strokeColor="@color/greenis"
         android:visibility="gone"/>
 
 

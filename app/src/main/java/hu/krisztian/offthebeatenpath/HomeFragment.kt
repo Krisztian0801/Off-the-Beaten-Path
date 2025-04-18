@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import hu.krisztian.offthebeatenpath.adapter.PlacesAdapter
 import hu.krisztian.offthebeatenpath.network.NetworkHelper
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
@@ -24,6 +26,8 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var placesAdapter: PlacesAdapter
     private lateinit var noInternetTextView: TextView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var tryAgainButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,28 +38,51 @@ class HomeFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewPlaces)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         noInternetTextView = view.findViewById(R.id.noInternetTextView)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        tryAgainButton = view.findViewById(R.id.tryAgainButton)
 
-        if (NetworkHelper.isMobileDataEnabled(requireContext()) || NetworkHelper.isWiFiEnabled(requireContext()) || NetworkHelper.isInternetAvailable()) {
-            fetchPlaces()
-        } else {
-            noInternetTextView.visibility = View.VISIBLE
+        // 👉 Kezdetben üres adapter beállítása
+        placesAdapter = PlacesAdapter(emptyList()) {
+            val intent = Intent(requireActivity(), PlaceDetailActivity::class.java)
+            startActivity(intent)
+        }
+        recyclerView.adapter = placesAdapter
+
+        // 👉 Adatok betöltése első indításkor
+        fetchPlaces()
+
+        swipeRefreshLayout.setOnRefreshListener {
+            if (hasInternet()) {
+                fetchPlaces()
+            } else {
+                showNoInternet()
+            }
+        }
+
+        tryAgainButton.setOnClickListener {
+            if (hasInternet()) {
+                fetchPlaces()
+                hideNoInternet()
+            } else {
+                showNoInternet()
+            }
         }
 
         return view
     }
 
     private fun fetchPlaces() {
+        swipeRefreshLayout.isRefreshing = true
+
         RetrofitClient.placesService.getAllPOIs().enqueue(object : Callback<PlacesListResponse> {
             override fun onResponse(call: Call<PlacesListResponse>, response: Response<PlacesListResponse>) {
-                if (response.isSuccessful) {
-                    val places = response.body()?.message // Extract single Place object
-                    if (places != null) {
+                swipeRefreshLayout.isRefreshing = false
 
-                        placesAdapter = PlacesAdapter(places) {
-                            val intent = Intent(requireActivity(), PlaceDetailActivity::class.java)
-                            startActivity(intent)
-                        }
-                        recyclerView.adapter = placesAdapter
+                if (response.isSuccessful) {
+                    val places = response.body()?.message
+                    if (places != null) {
+                        // 🔁 Adapter frissítése meglévő példányon
+                        placesAdapter.updateData(places)
                     } else {
                         Log.e("HomeFragment", "Place not found")
                         showError(getString(R.string.no_places_available))
@@ -67,18 +94,29 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
+                swipeRefreshLayout.isRefreshing = false
                 Toast.makeText(requireContext(), getString(R.string.network_error, t.message), Toast.LENGTH_SHORT).show()
             }
-
         })
     }
-
-
-
 
     private fun showError(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
+    private fun hasInternet(): Boolean {
+        return NetworkHelper.isMobileDataEnabled(requireContext()) ||
+                NetworkHelper.isWiFiEnabled(requireContext()) ||
+                NetworkHelper.isInternetAvailable()
+    }
 
+    private fun showNoInternet() {
+        noInternetTextView.visibility = View.VISIBLE
+        tryAgainButton.visibility = View.VISIBLE
+    }
+
+    private fun hideNoInternet() {
+        noInternetTextView.visibility = View.GONE
+        tryAgainButton.visibility = View.GONE
+    }
 }

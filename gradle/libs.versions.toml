@@ -27,6 +27,7 @@ testImplementation = "4.13.2"
 mockitoCore = "5.11.0"
 mockitoInline = "5.2.0"
 testImplementationMockito = "5.11.0"
+swiperefreshlayout = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +57,7 @@ mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref =
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 testImplementation = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "testImplementation" }
 testImplementation-mockito = { group = "org.mockito", name = "mockito-core", version.ref = "testImplementationMockito" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 
 
 [plugins]
