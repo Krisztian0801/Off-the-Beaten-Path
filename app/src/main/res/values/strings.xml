@@ -83,4 +83,19 @@
     <string name="save_changes">Save Changes</string>
     <string name="save_place">Save Place</string>
     <string name="success_save_place">Place successfully saved</string>
+    <string name="place_deleted_successfully">Place deleted successfully!</string>
+    <string name="cannot_deleted_the_place">Cannot deleted the place!</string>
+    <string name="delete_place">Delete Place</string>
+    <string name="are_you_sure_you_want_to_delete_named_place_this_action_cannot_be_undone">Are you sure you want to delete %1$s named place? This action cannot be undone.</string>
+    <string name="yes_delete">Yes, delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="user_id_not_found">User ID not found!</string>
+    <string name="profile_updated">Profile updated!</string>
+    <string name="failed_to_update_profile">Failed to update profile!</string>
+    <string name="are_you_sure_you_want_to_delete_your_account_this_action_cannot_be_undone">Are you sure you want to delete your account? This action cannot be undone.</string>
+    <string name="password_updated_successfully">Password updated successfully!</string>
+    <string name="failed_to_update_password">Failed to update password!</string>
+    <string name="account_deleted_successfully">Account deleted successfully!</string>
+    <string name="failed_to_delete_account">Failed to delete account!</string>
+    <string name="try_again">Try again</string>
 </resources>

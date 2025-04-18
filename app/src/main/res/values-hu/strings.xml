@@ -80,5 +80,19 @@
     <string name="save_changes">Változtatások mentése</string>
     <string name="save_place">Hely mentése</string>
     <string name="landmark">Tájegység</string>
-    <string name="success_save_place">Place successfully saved</string>
+    <string name="success_save_place">Hely mentése sikeres!</string>
+    <string name="place_deleted_successfully">A hely törlés sikeres!</string>
+    <string name="cannot_deleted_the_place">A helyet nem lehet törölni!</string>
+    <string name="delete_place">Hely törlése</string>
+    <string name="are_you_sure_you_want_to_delete_named_place_this_action_cannot_be_undone">Biztosan szeretné törlöni a(z) %1$s nevű helyet? A művelet nem vissza fordítható!</string>
+    <string name="yes_delete">Igen, törlöm</string>
+    <string name="cancel">Mégsem</string>
+    <string name="user_id_not_found">Felhasználó ID nem található</string>
+    <string name="profile_updated">Profil mentése sikeres!</string>
+    <string name="failed_to_update_profile">Profil metése sikeretelen!</string>
+    <string name="are_you_sure_you_want_to_delete_your_account_this_action_cannot_be_undone">Biztosan szeretné törlöni a fiókját? A művelet nem vissza fordítható!</string>
+    <string name="password_updated_successfully">Jelszó módosítás sikeres!</string>
+    <string name="failed_to_update_password">Jelszó módosítása sikertelen!</string>
+    <string name="account_deleted_successfully">A fiókot sikeresen töröltük!</string>
+    <string name="try_again">Újra probál</string>
 </resources>

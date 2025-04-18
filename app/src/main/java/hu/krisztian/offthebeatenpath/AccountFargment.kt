@@ -74,7 +74,8 @@ class AccountFragment : Fragment() {
         val userId = sharedPreferences.getString("user_id", null)?.toIntOrNull()
 
         if (userId == null) {
-            Toast.makeText(requireContext(), "User ID not found!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.user_id_not_found), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -85,16 +86,18 @@ class AccountFragment : Fragment() {
                     if (response.isSuccessful && response.body()?.success == true) {
                         username?.let { saveLocalUserData("user_name", it) }
                         email?.let { saveLocalUserData("user_email", it) }
-                        Toast.makeText(requireContext(), "Profile updated!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.profile_updated), Toast.LENGTH_SHORT).show()
 
                         imageUri?.let { uploadProfileImage(userId, it) }
                     } else {
-                        Toast.makeText(requireContext(), "Failed to update profile!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.failed_to_update_profile), Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<UpdateUserResponse>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "${getString(R.string.network_error)}: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
     }
@@ -172,7 +175,7 @@ class AccountFragment : Fragment() {
         val userId = sharedPreferences.getString("user_id", null)?.toIntOrNull()
 
         if (userId == null) {
-            Toast.makeText(requireContext(), "User ID not found!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.user_id_not_found), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -186,14 +189,16 @@ class AccountFragment : Fragment() {
             .enqueue(object : Callback<UpdateUserResponse> {
                 override fun onResponse(call: Call<UpdateUserResponse>, response: Response<UpdateUserResponse>) {
                     if (response.isSuccessful && response.body()?.success == true) {
-                        Toast.makeText(requireContext(), "Password updated successfully!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.password_updated_successfully), Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.failed_to_update_password), Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<UpdateUserResponse>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "${getString(R.string.network_error)}: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
     }
@@ -202,12 +207,12 @@ class AccountFragment : Fragment() {
 
     private fun confirmDeleteAccount() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Delete Account")
-            .setMessage("Are you sure you want to delete your account? This action cannot be undone.")
-            .setPositiveButton("Yes, delete") { _, _ ->
+            .setTitle(getString(R.string.delete_account))
+            .setMessage(getString(R.string.are_you_sure_you_want_to_delete_your_account_this_action_cannot_be_undone))
+            .setPositiveButton(getString(R.string.yes_delete)) { _, _ ->
                 deleteUserAccount()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
@@ -216,7 +221,7 @@ class AccountFragment : Fragment() {
         val userId = sharedPreferences.getString("user_id", null)?.toIntOrNull()
 
         if (userId == null) {
-            Toast.makeText(requireContext(), "User ID not found!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.user_id_not_found), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -224,15 +229,17 @@ class AccountFragment : Fragment() {
         RetrofitClient.userService.deleteUser(userId).enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Account deleted successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.account_deleted_successfully), Toast.LENGTH_SHORT).show()
                     logoutAndRedirect()
                 } else {
-                    Toast.makeText(requireContext(), "Failed to delete account!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.failed_to_delete_account), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.network_error)}: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
