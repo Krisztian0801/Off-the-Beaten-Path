@@ -1,5 +1,6 @@
 package hu.krisztian.offthebeatenpath
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
 import android.webkit.WebSettings
@@ -13,6 +14,7 @@ class WebViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val toolbar: Toolbar = findViewById(R.id.webViewToolbar)
         setSupportActionBar(toolbar)
