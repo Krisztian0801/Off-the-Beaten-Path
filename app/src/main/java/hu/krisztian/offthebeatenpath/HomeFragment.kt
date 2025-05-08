@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import hu.krisztian.offthebeatenpath.adapter.PlacesAdapter
 import hu.krisztian.offthebeatenpath.network.NetworkHelper
 import hu.krisztian.offthebeatenpath.network.RetrofitClient
@@ -27,6 +28,7 @@ class HomeFragment : Fragment() {
     private lateinit var noInternetTextView: TextView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var tryAgainButton: Button
+    private lateinit var filterButton: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +41,7 @@ class HomeFragment : Fragment() {
         noInternetTextView = view.findViewById(R.id.noInternetTextView)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         tryAgainButton = view.findViewById(R.id.tryAgainButton)
+        filterButton = view.findViewById(R.id.filterButton)
 
         placesAdapter = PlacesAdapter(emptyList())
         recyclerView.adapter = placesAdapter
@@ -54,6 +57,11 @@ class HomeFragment : Fragment() {
             }
         }
 
+        filterButton.setOnClickListener {
+            FilterDialogFragment { categoryId, landmarkId ->
+                fetchFilteredPlaces(categoryId, landmarkId)
+            }.show(parentFragmentManager, "FilterDialog")
+        }
         tryAgainButton.setOnClickListener {
             if (hasInternet()) {
                 fetchPlaces()
@@ -93,6 +101,29 @@ class HomeFragment : Fragment() {
             }
         })
     }
+    private fun fetchFilteredPlaces(categoryId: Int?, landmarkId: Int?) {
+        swipeRefreshLayout.isRefreshing = true
+
+        RetrofitClient.placesService.getPOIsByFilter(categoryId, landmarkId)
+            .enqueue(object : Callback<PlacesListResponse> {
+                override fun onResponse(call: Call<PlacesListResponse>, response: Response<PlacesListResponse>) {
+                    swipeRefreshLayout.isRefreshing = false
+                    if (response.isSuccessful) {
+                        val places = response.body()?.message
+                        placesAdapter.updateData(places ?: emptyList())
+                    } else {
+                        showError(getString(R.string.failed_to_load_places_please_try_again_later))
+                    }
+                }
+
+                override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
+                    swipeRefreshLayout.isRefreshing = false
+                    showError(getString(R.string.network_error, t.message ?: getString(R.string.unknown_error)))
+                }
+            })
+    }
+
+
 
     private fun showError(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()

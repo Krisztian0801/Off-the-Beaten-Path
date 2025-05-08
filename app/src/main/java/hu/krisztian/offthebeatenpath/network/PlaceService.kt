@@ -19,6 +19,12 @@ interface PlaceService {
     @GET("places.api.php")
     fun getPOIsByUserID(@Query("user_id") userId: Int): Call<PlacesListResponse>
 
+    @GET("places.api.php")
+    fun getPOIsByFilter(
+        @Query("category_id") categoryId: Int? = null,
+        @Query("landmark_id") landmarkId: Int? = null
+    ): Call<PlacesListResponse>
+
     @POST("places.api.php")
     fun addPOI(@Body placeRequest: PlaceRequest): Call<PlaceResponse>
 
