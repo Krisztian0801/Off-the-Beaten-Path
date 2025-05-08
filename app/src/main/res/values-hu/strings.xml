@@ -95,6 +95,6 @@
     <string name="try_again">Újra probál</string>
     <string name="failed_to_delete_account">A fiók törlése sikertelen</string>
     <string name="unknown_error">Ismeretlen hiba</string>
-    <string name="filter_places">Filter places</string>
-    <string name="filter">Filter</string>
+    <string name="filter_places">Helyek szűrése</string>
+    <string name="filter">Szűrés</string>
 </resources>
