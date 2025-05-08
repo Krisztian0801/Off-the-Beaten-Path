@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:background="@color/green">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
@@ -23,10 +24,8 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:title="@string/home"
-            app:itemIconTint="@color/bottom_nav_item_selector"
-            app:itemTextColor="@color/bottom_nav_item_selector"
             app:menu="@menu/top_bar"
-            style="@style/CustomToolbarStyle"
+            style="@style/Widget.App.Toolbar"
             />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -44,7 +43,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/footer"
-        style="@style/banner"
+        style="@style/Widget.App.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -52,6 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:itemIconTint="@color/bottom_nav_item_selector"
         app:itemTextColor="@color/bottom_nav_item_selector"
-        app:menu="@menu/bottom_nav" />
+        app:menu="@menu/bottom_nav"
+        android:background="@color/lightes_green"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

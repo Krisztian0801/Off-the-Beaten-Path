@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 class SettingsFragment : Fragment() {
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,7 +71,8 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onLogoutClick() {
-        val sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             remove("user_id")
             apply()

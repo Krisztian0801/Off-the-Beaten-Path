@@ -98,4 +98,7 @@
     <string name="account_deleted_successfully">Account deleted successfully!</string>
     <string name="failed_to_delete_account">Failed to delete account!</string>
     <string name="try_again">Try again</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="filter_places">Filter places</string>
+    <string name="filter">Filter</string>
 </resources>

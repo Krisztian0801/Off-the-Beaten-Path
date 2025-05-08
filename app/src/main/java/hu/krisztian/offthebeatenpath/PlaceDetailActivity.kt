@@ -90,18 +90,20 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     editLandmarkDropdown.setText(landmarkName, false)
                     true
                 }
+
                 R.id.action_delete -> {
                     confirmDeletePlace()
                     true
                 }
+
                 else -> false
             }
         }
 
 
-       saveEditPlaceButton.setOnClickListener {
-           saveEditedPlace()
-       }
+        saveEditPlaceButton.setOnClickListener {
+            saveEditedPlace()
+        }
         val placeId = intent.getIntExtra("PLACE_ID", -1)
         val userId = intent.getIntExtra("USER_ID", -1)
         val categoryId = intent.getIntExtra("CATEGORY_ID", -1)
@@ -127,7 +129,8 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             categoryTextView.text = getString(R.string.unknown_category)
         }
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.place_map) as SupportMapFragment
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.place_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
@@ -142,12 +145,14 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         if (categoryName.isEmpty()) {
-            Toast.makeText(this, getString(R.string.error_select_category), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_select_category), Toast.LENGTH_SHORT)
+                .show()
             return
         }
 
         if (landmarkName.isEmpty()) {
-            Toast.makeText(this, getString(R.string.error_select_landmark), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_select_landmark), Toast.LENGTH_SHORT)
+                .show()
             return
         }
 
@@ -156,11 +161,16 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val landmarkId = DropdownHelper.getLandmarkId(landmarkName)
 
             if (categoryId == 0 || landmarkId == 0) {
-                Toast.makeText(this@PlaceDetailActivity, getString(R.string.error_invalid_selection), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@PlaceDetailActivity,
+                    getString(R.string.error_invalid_selection),
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@launch
             }
 
-            val userIdString = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("user_id", null)
+            val userIdString =
+                getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("user_id", null)
             val userId = userIdString?.toIntOrNull() ?: -1
             val placeId = intent.getIntExtra("PLACE_ID", -1)
 
@@ -174,21 +184,37 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 user_id = userId
             )
 
-            RetrofitClient.placesService.updatePOI(placeId, placeRequest).enqueue(object : Callback<PlaceUpdateResponse> {
-                override fun onResponse(call: Call<PlaceUpdateResponse>, response: Response<PlaceUpdateResponse>) {
-                    if (response.isSuccessful && response.body()?.success == true) {
-                        Toast.makeText(this@PlaceDetailActivity, getString(R.string.success_save_place), Toast.LENGTH_SHORT).show()
-                        hideKeyboard()
-                    } else {
-                        Toast.makeText(this@PlaceDetailActivity, getString(R.string.error_save_place), Toast.LENGTH_SHORT).show()
+            RetrofitClient.placesService.updatePOI(placeId, placeRequest)
+                .enqueue(object : Callback<PlaceUpdateResponse> {
+                    override fun onResponse(
+                        call: Call<PlaceUpdateResponse>,
+                        response: Response<PlaceUpdateResponse>
+                    ) {
+                        if (response.isSuccessful && response.body()?.success == true) {
+                            Toast.makeText(
+                                this@PlaceDetailActivity,
+                                getString(R.string.success_save_place),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            hideKeyboard()
+                        } else {
+                            Toast.makeText(
+                                this@PlaceDetailActivity,
+                                getString(R.string.error_save_place),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<PlaceUpdateResponse>, t: Throwable) {
-                    Toast.makeText(this@PlaceDetailActivity, "${getString(R.string.error_save_place)}: ${t.message}", Toast.LENGTH_SHORT).show()
-                    Log.e("HIBA", "${getString(R.string.error_save_place)}: ${t.message}\"")
-                }
-            })
+                    override fun onFailure(call: Call<PlaceUpdateResponse>, t: Throwable) {
+                        Toast.makeText(
+                            this@PlaceDetailActivity,
+                            "${getString(R.string.error_save_place)}: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("HIBA", "${getString(R.string.error_save_place)}: ${t.message}\"")
+                    }
+                })
 
         }
     }
@@ -196,24 +222,37 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun deletePlace() {
         val placeId = intent.getIntExtra("PLACE_ID", -1)
 
-        RetrofitClient.placesService.deletePOI(placeId).enqueue(object : Callback<PlaceUpdateResponse>{
-            override fun onResponse(
-                call: Call<PlaceUpdateResponse>,
-                response: Response<PlaceUpdateResponse>
-            ) {
-                if(response.isSuccessful && response.body()?.success == true){
-                    Toast.makeText(this@PlaceDetailActivity, getString(R.string.place_deleted_successfully), Toast.LENGTH_SHORT).show()
-                    finish()
-                } else {
-                    Toast.makeText(this@PlaceDetailActivity, getString(R.string.cannot_deleted_the_place), Toast.LENGTH_SHORT).show()
+        RetrofitClient.placesService.deletePOI(placeId)
+            .enqueue(object : Callback<PlaceUpdateResponse> {
+                override fun onResponse(
+                    call: Call<PlaceUpdateResponse>,
+                    response: Response<PlaceUpdateResponse>
+                ) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        Toast.makeText(
+                            this@PlaceDetailActivity,
+                            getString(R.string.place_deleted_successfully),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    } else {
+                        Toast.makeText(
+                            this@PlaceDetailActivity,
+                            getString(R.string.cannot_deleted_the_place),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<PlaceUpdateResponse>, t: Throwable) {
-                Toast.makeText(this@PlaceDetailActivity,  getString(R.string.cannot_deleted_the_place), Toast.LENGTH_SHORT).show()
-                Log.e("HIBA",  "${getString(R.string.cannot_deleted_the_place)} : ${t.message}")
-            }
-        })
+                override fun onFailure(call: Call<PlaceUpdateResponse>, t: Throwable) {
+                    Toast.makeText(
+                        this@PlaceDetailActivity,
+                        getString(R.string.cannot_deleted_the_place),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("HIBA", "${getString(R.string.cannot_deleted_the_place)} : ${t.message}")
+                }
+            })
     }
 
     private fun confirmDeletePlace() {
@@ -223,7 +262,8 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 getString(
                     R.string.are_you_sure_you_want_to_delete_named_place_this_action_cannot_be_undone,
                     placeName
-                ))
+                )
+            )
             .setPositiveButton(getString(R.string.yes_delete)) { _, _ ->
                 deletePlace()
             }
@@ -243,6 +283,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         return false
     }
+
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val loggedInUserId = getLoggedInUserId()
         val isAdmin = checkIfUserIsAdmin()
@@ -256,17 +297,23 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             editMenuItem?.setShowAsAction(1)
             deleteMenuItem?.setShowAsAction(1)
         } else {
-            Log.d("MenuVisibility", "User ID: $loggedInUserId, Target User ID: $targetUserId, Admin: $isAdmin")
+            Log.d(
+                "MenuVisibility",
+                "User ID: $loggedInUserId, Target User ID: $targetUserId, Admin: $isAdmin"
+            )
             editMenuItem?.setShowAsAction(0)
             deleteMenuItem?.setShowAsAction(0)
         }
         return super.onPrepareOptionsMenu(menu)
     }
+
     private fun getLoggedInUserId(): Int {
-        val userIdString = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("user_id", null)
+        val userIdString =
+            getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("user_id", null)
         val userId = userIdString?.toIntOrNull() ?: -1
         return userId
     }
+
     private fun checkIfUserIsAdmin(): Boolean {
         val isAdmin = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getInt("isAdmin", 0)
         return (isAdmin == 1)
@@ -288,6 +335,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 .snippet(description)
         )
     }
+
     private fun loadPlaceFromAPI(placeId: Int) {
         val apiService = RetrofitClient.placesService
         val call = apiService.getPOIById(placeId)
@@ -301,27 +349,38 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         placeName = place.poi_name
                         fetchCoordinatesAndAddMarker(place)
                     } else {
-                        Toast.makeText(this@PlaceDetailActivity,
-                            getString(R.string.place_not_found), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@PlaceDetailActivity,
+                            getString(R.string.place_not_found), Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
-                    Toast.makeText(this@PlaceDetailActivity,
-                        getString(R.string.failed_to_load_place, response.code().toString()), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@PlaceDetailActivity,
+                        getString(R.string.failed_to_load_place, response.code().toString()),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
-                Toast.makeText(this@PlaceDetailActivity,
-                    getString(R.string.failed_to_load_places, t.message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@PlaceDetailActivity,
+                    getString(R.string.failed_to_load_places, t.message), Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
+
     private fun fetchCoordinatesAndAddMarker(place: Place) {
         val apiService = RetrofitClient.placesService
         val call = apiService.getCoordinates(place.coordinate_id)
 
         call.enqueue(object : Callback<CoordinateResponse> {
-            override fun onResponse(call: Call<CoordinateResponse>, response: Response<CoordinateResponse>) {
+            override fun onResponse(
+                call: Call<CoordinateResponse>,
+                response: Response<CoordinateResponse>
+            ) {
                 if (response.isSuccessful) {
                     response.body()?.let { coordinateResponse ->
                         place.latitude = coordinateResponse.message.coordinate_latitude
@@ -333,17 +392,28 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                             place.poi_discription ?: ""
                         )
 
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(place.latitude!!, place.longitude!!), 15f))
+                        googleMap.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(
+                                    place.latitude!!,
+                                    place.longitude!!
+                                ), 15f
+                            )
+                        )
                     }
                 } else {
-                    Toast.makeText(this@PlaceDetailActivity,
-                        getString(R.string.failed_to_fetch_coordinates, ""), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@PlaceDetailActivity,
+                        getString(R.string.failed_to_fetch_coordinates, ""), Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<CoordinateResponse>, t: Throwable) {
-                Toast.makeText(this@PlaceDetailActivity,
-                    getString(R.string.error_fetching_coordinates, t.message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@PlaceDetailActivity,
+                    getString(R.string.error_fetching_coordinates, t.message), Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -352,7 +422,7 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private suspend fun fetchPlaceDetails(
         placeId: Int,
         placeNameTextView: TextView,
-            categoryTextView: TextView,
+        categoryTextView: TextView,
         descriptionTextView: TextView
     ) {
         withContext(Dispatchers.IO) {
@@ -376,17 +446,18 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        descriptionTextView.text = getString(R.string.failed_to_fetch_details_try_again_later)
+                        descriptionTextView.text =
+                            getString(R.string.failed_to_fetch_details_try_again_later)
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    descriptionTextView.text = getString(R.string.unable_to_connect_check_your_internet_connection)
+                    descriptionTextView.text =
+                        getString(R.string.unable_to_connect_check_your_internet_connection)
                 }
             }
         }
     }
-
 
 
     private fun fetchUserName(userId: Int, userTextView: TextView) {
@@ -395,7 +466,8 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (response.isSuccessful) {
                     response.body()?.let { userResponse ->
                         if (userResponse.success) {
-                            val username = userResponse.user?.user_name ?: getString(R.string.unknown_user)
+                            val username =
+                                userResponse.user?.user_name ?: getString(R.string.unknown_user)
                             userTextView.text = getString(R.string.uploaded_by, username)
                         } else {
                             userTextView.text = getString(R.string.user_not_found)
@@ -413,29 +485,37 @@ class PlaceDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         })
     }
+
     private fun fetchCategoryName(categoryId: Int, categoryTextView: TextView) {
-        RetrofitClient.categoryService.getCategory(categoryId).enqueue(object : Callback<CategoryResponse> {
-            override fun onResponse(call: Call<CategoryResponse>, response: Response<CategoryResponse>) {
-                categoryTextView.post {
-                    if (response.isSuccessful) {
-                        response.body()?.let { categoryResponse ->
-                            categoryTextView.text = categoryResponse.category
-                        } ?: run {
-                            categoryTextView.text = getString(R.string.category_not_found)
+        RetrofitClient.categoryService.getCategory(categoryId)
+            .enqueue(object : Callback<CategoryResponse> {
+                override fun onResponse(
+                    call: Call<CategoryResponse>,
+                    response: Response<CategoryResponse>
+                ) {
+                    categoryTextView.post {
+                        if (response.isSuccessful) {
+                            response.body()?.let { categoryResponse ->
+                                categoryTextView.text = categoryResponse.category
+                            } ?: run {
+                                categoryTextView.text = getString(R.string.category_not_found)
+                            }
+                        } else {
+                            categoryTextView.text =
+                                getString(R.string.error, response.code().toString())
                         }
-                    } else {
-                        categoryTextView.text = getString(R.string.error, response.code().toString())
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
-                categoryTextView.post {
-                    categoryTextView.text = getString(R.string.network_error, t.localizedMessage)
+                override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+                    categoryTextView.post {
+                        categoryTextView.text =
+                            getString(R.string.network_error, t.localizedMessage)
+                    }
                 }
-            }
-        })
+            })
     }
+
     private suspend fun fetchLandmarkName(landmarkId: Int) {
         withContext(Dispatchers.IO) {
             try {

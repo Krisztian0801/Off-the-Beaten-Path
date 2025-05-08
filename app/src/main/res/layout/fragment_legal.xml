@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".LegalFragment">
+    tools:context=".LegalFragment"
+    android:background="@color/background">
 
     <ListView
         android:id="@+id/legalListView"

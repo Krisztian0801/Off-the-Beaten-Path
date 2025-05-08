@@ -72,13 +72,17 @@ class ProfileFragment : Fragment() {
 
 
     private fun loadUserData() {
-        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
 
         val userName = sharedPreferences.getString("user_name", "Unknown User")
         val userEmail = sharedPreferences.getString("user_email", "unknown@example.com")
         val userImage = sharedPreferences.getString("user_image", null)
 
-        Log.d("ProfileFragment", "Loaded user data: name=$userName, email=$userEmail, image=$userImage")
+        Log.d(
+            "ProfileFragment",
+            "Loaded user data: name=$userName, email=$userEmail, image=$userImage"
+        )
 
         binding.userNameTextView.text = userName
         binding.userEmailTextView.text = userEmail
@@ -93,34 +97,46 @@ class ProfileFragment : Fragment() {
     private fun fetchPlaces() {
         profileSwipeRefreshLayout.isRefreshing = true
 
-        val userIdString = requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE).getString("user_id", null)
+        val userIdString =
+            requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
+                .getString("user_id", null)
         val userId = userIdString?.toIntOrNull() ?: -1
-        RetrofitClient.placesService.getPOIsByUserID(userId).enqueue(object : Callback<PlacesListResponse> {
-            override fun onResponse(call: Call<PlacesListResponse>, response: Response<PlacesListResponse>) {
-                profileSwipeRefreshLayout.isRefreshing = false
-                if (response.isSuccessful) {
-                    val places = response.body()?.message
-                    if (places != null) {
-                        placesAdapter.updateData(places)
+        RetrofitClient.placesService.getPOIsByUserID(userId)
+            .enqueue(object : Callback<PlacesListResponse> {
+                override fun onResponse(
+                    call: Call<PlacesListResponse>,
+                    response: Response<PlacesListResponse>
+                ) {
+                    profileSwipeRefreshLayout.isRefreshing = false
+                    if (response.isSuccessful) {
+                        val places = response.body()?.message
+                        if (places != null) {
+                            placesAdapter.updateData(places)
+                        } else {
+                            Log.e("ProfileFragment", "Place not found")
+                            showError(getString(R.string.no_places_available))
+                        }
                     } else {
-                        Log.e("ProfileFragment", "Place not found")
-                        showError(getString(R.string.no_places_available))
+                        Log.e("ProfileFragment", "Error: ${response.code()}")
+                        showError(getString(R.string.failed_to_load_places_please_try_again_later))
                     }
-                } else {
-                    Log.e("ProfileFragment", "Error: ${response.code()}")
-                    showError(getString(R.string.failed_to_load_places_please_try_again_later))
                 }
-            }
 
-            override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), getString(R.string.network_error, t.message), Toast.LENGTH_SHORT).show()
-            }
+                override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.network_error, t.message),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-        })
+            })
     }
+
     private fun showError(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
+
     private fun hasInternet(): Boolean {
         return NetworkHelper.isMobileDataEnabled(requireContext()) ||
                 NetworkHelper.isWiFiEnabled(requireContext()) ||

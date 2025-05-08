@@ -6,7 +6,7 @@
     <color name="darker_brown">#CDBBAF</color>
     <color name="orange">#E0964F</color>
     <color name="greenier">#668E6C</color>
-    <color name="green">#30794B</color>
+    <color name="green">#388E3C</color>
     <color name="dark_green">#194532</color>
     <color name="greenis_blue">#116B76</color>
     <color name="greenis">#358D74</color>
@@ -15,4 +15,8 @@
     <color name="icon_tint">#000000</color>
     <color name="icon_tint_selected">#30794B</color>
     <color name="tomato">#FF6347</color>
+    <color name="light_green">#66BB6A</color>
+    <color name="lightes_green">#A5D6A7</color>
+    <color name="background">#C8E6C9</color>ű
+    <color name="dark_green_2">#1B5E20</color>
 </resources>
