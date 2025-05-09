@@ -29,7 +29,6 @@ class FilterDialogFragment(
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DialogFilterPoiBinding.inflate(inflater, container, false)
 
-        // Populate dropdowns using your helper
         DropdownHelper.populateCategories(requireContext(), binding.categoryDropdown)
         DropdownHelper.populateLandmarks(requireContext(), binding.landmarkDropdown)
 
