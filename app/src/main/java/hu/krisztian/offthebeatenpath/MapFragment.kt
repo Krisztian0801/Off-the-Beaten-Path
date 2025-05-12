@@ -84,6 +84,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             userId =  userId // Replace with actual user ID"
         ) { newPlace ->
             fetchCoordinatesAndAddMarker(newPlace.message)
+            markerRefresh()
         }
         bottomSheet.show(parentFragmentManager, "AddPlaceBottomSheet")
     }
@@ -134,6 +135,31 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             override fun onFailure(call: Call<CoordinateResponse>, t: Throwable) {
                 Toast.makeText(requireContext(), getString(R.string.failed_to_fetch_coordinates, t.message), Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun markerRefresh() {
+        googleMap.clear() // Összes marker eltávolítása
+
+        val apiService = RetrofitClient.placesService
+        val call = apiService.getAllPOIs()
+
+        call.enqueue(object : Callback<PlacesListResponse> {
+            override fun onResponse(call: Call<PlacesListResponse>, response: Response<PlacesListResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { placesList ->
+                        for (place in placesList.message) {
+                            fetchCoordinatesAndAddMarker(place)
+                        }
+                    }
+                } else {
+                    Toast.makeText(requireContext(), R.string.failed_to_load_places_general, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<PlacesListResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), getString(R.string.failed_to_load_places, t.message), Toast.LENGTH_SHORT).show()
             }
         })
     }
