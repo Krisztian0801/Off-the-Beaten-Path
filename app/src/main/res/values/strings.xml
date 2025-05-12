@@ -101,5 +101,5 @@
     <string name="unknown_error">Unknown error</string>
     <string name="filter_places">Filter places</string>
     <string name="filter">Filter</string>
-    <string name="failed_to_load_places_general">Failed to load places_general</string>
+    <string name="failed_to_load_places_general">Failed to load places general</string>
 </resources>

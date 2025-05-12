@@ -97,4 +97,5 @@
     <string name="unknown_error">Ismeretlen hiba</string>
     <string name="filter_places">Helyek szűrése</string>
     <string name="filter">Szűrés</string>
+    <string name="failed_to_load_places_general">Hiba a helyek betölése során</string>
 </resources>
